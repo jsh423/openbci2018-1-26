@@ -14,12 +14,12 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
 //IO方向设置
-#define SDA_IN()  {GPIOH->MODER&=~(3<<(5*2));GPIOH->MODER|=0<<5*2;}	//PH5输入模式
-#define SDA_OUT() {GPIOH->MODER&=~(3<<(5*2));GPIOH->MODER|=1<<5*2;} //PH5输出模式
+#define SDA_IN()  {GPIOA->MODER&=~(3<<(12*2));GPIOA->MODER|=0<<12*2;}	//PA12输入模式
+#define SDA_OUT() {GPIOA->MODER&=~(3<<(12*2));GPIOA->MODER|=1<<12*2;} //PA12输出模式
 //IO操作
-#define IIC_SCL   PHout(4) //SCL
-#define IIC_SDA   PHout(5) //SDA
-#define READ_SDA  PHin(5)  //输入SDA
+#define IIC_SCL   PAout(11) //SCL
+#define IIC_SDA   PAout(12) //SDA
+#define READ_SDA  PAin(12)  //输入SDA
 
 //IIC所有操作函数
 void IIC_Init(void);                //初始化IIC的IO口				 

@@ -137,7 +137,7 @@
           </Flash1>
           <bUseTDR>1</bUseTDR>
           <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3></Flash3>
+          <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
           <pFcarmGrp></pFcarmGrp>
@@ -186,7 +186,7 @@
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F429xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\OBJ;..\USER;..\HALLIB\STM32F4xx_HAL_Driver\Inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\SDRAM;..\HARDWARE\KEY;..\HARDWARE\IIC;..\HARDWARE\LAN8720;..\HARDWARE\PCF8574;..\HARDWARE\TIMER;..\USMART;..\MALLOC;..\LWIP;..\LWIP\arch;..\LWIP\lwip-1.4.1\src\include;..\LWIP\lwip-1.4.1\src\include\ipv4;..\LWIP\lwip-1.4.1\src\include\netif;..\LWIP\lwip_app\lwip_comm;..\LWIP\lwip_app\tcp_server_demo;..\HARDWARE\ADS1299;..\HARDWARE\SPI</IncludePath>
+              <IncludePath>..\CORE;..\OBJ;..\USER;..\HALLIB\STM32F4xx_HAL_Driver\Inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\SDRAM;..\HARDWARE\KEY;..\HARDWARE\IIC;..\HARDWARE\LAN8720;..\HARDWARE\PCF8574;..\HARDWARE\TIMER;..\USMART;..\MALLOC;..\LWIP;..\LWIP\arch;..\LWIP\lwip-1.4.1\src\include;..\LWIP\lwip-1.4.1\src\include\ipv4;..\LWIP\lwip-1.4.1\src\include\netif;..\LWIP\lwip_app\lwip_comm;..\LWIP\lwip_app\tcp_server_demo;..\HARDWARE\ADS1299;..\HARDWARE\SPI;..\HARDWARE\AD5933</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -565,39 +565,14 @@
           <GroupName>HARDWARE</GroupName>
           <Files>
             <File>
-              <FileName>led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\LED\led.c</FilePath>
-            </File>
-            <File>
               <FileName>key.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\KEY\key.c</FilePath>
             </File>
             <File>
-              <FileName>lcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\LCD\lcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>sdram.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\SDRAM\sdram.c</FilePath>
-            </File>
-            <File>
-              <FileName>ltdc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\LCD\ltdc.c</FilePath>
-            </File>
-            <File>
               <FileName>myiic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\IIC\myiic.c</FilePath>
-            </File>
-            <File>
-              <FileName>pcf8574.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\PCF8574\pcf8574.c</FilePath>
             </File>
             <File>
               <FileName>lan8720.c</FileName>
@@ -619,25 +594,15 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\SPI\spi.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>USMART</GroupName>
-          <Files>
             <File>
-              <FileName>usmart.c</FileName>
+              <FileName>sdram.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\USMART\usmart.c</FilePath>
+              <FilePath>..\HARDWARE\SDRAM\sdram.c</FilePath>
             </File>
             <File>
-              <FileName>usmart_str.c</FileName>
+              <FileName>AD5933.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\USMART\usmart_str.c</FilePath>
-            </File>
-            <File>
-              <FileName>usmart_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USMART\usmart_config.c</FilePath>
+              <FilePath>..\HARDWARE\AD5933\AD5933.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -868,6 +833,26 @@
               <FileName>readme.txt</FileName>
               <FileType>5</FileType>
               <FilePath>..\readme.txt</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>USMART</GroupName>
+          <Files>
+            <File>
+              <FileName>usmart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USMART\usmart.c</FilePath>
+            </File>
+            <File>
+              <FileName>usmart_config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USMART\usmart_config.c</FilePath>
+            </File>
+            <File>
+              <FileName>usmart_str.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USMART\usmart_str.c</FilePath>
             </File>
           </Files>
         </Group>

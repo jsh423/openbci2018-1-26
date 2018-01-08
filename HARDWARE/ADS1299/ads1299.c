@@ -148,8 +148,8 @@ void ADS1299_Init(void)
 	ADS1299_RST3=1;
 	delay_ms(5); 
 	//delay_ms(2);
-	ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
-	ADS1299_WREG(0X03,0xe0);//开启内部基准
+	//ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
+	//ADS1299_WREG(0X03,0xe0);//开启内部基准
 
 	delay_ms(20);
 	 		 	 
@@ -216,6 +216,7 @@ void ADS1299_IT(void)
     HAL_NVIC_SetPriority(EXTI4_IRQn,0,1);   //抢占优先级为2，子优先级为1
     HAL_NVIC_EnableIRQ(EXTI4_IRQn);         //使能中断线13 
 	ADS1299_START=1;
+	//ADS1299_Command(0x08);
 	delay_ms(10);
 	//ADS1299_RDATAC();
 //	 //中断线12-PC12
@@ -226,14 +227,14 @@ u8 p[18];
 u8 ADS1299_PREGS(void)
 {
 	u8 i;
-	ADS1299_CS0=0;
+	ADS1299_CS1=0;
 	SPI2_ReadWriteByte(0x00|0x20);
 	SPI2_ReadWriteByte(0x12);
 	for(i=0;i<3;i++)
 {
 	p[i]=SPI2_ReadWriteByte(0X00);
 }
-	ADS1299_CS0=1;
+	ADS1299_CS1=1;
 return p[0];
 }
 //检测ADS1299是否存在
@@ -246,8 +247,8 @@ u8 ADS1299_Check(void)
 	//ADS1299_START=1;
 	//delay_ms(1000);
 	
-	//ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
-	//ADS1299_WREG(0X03,0xe0);//开启内部基准
+	ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
+	ADS1299_WREG(0X03,0xe0);//开启内部基准
 	
 	delay_ms(10);
 	//ADS1299_RDATAC();
@@ -257,18 +258,18 @@ u8 ADS1299_Check(void)
 	//ADS1299_CS0=1;
 	ADS1299_WREG(0X01,0X95);	//设置多回读模式，通信速率250SPS 1k
 	//ADS1299_WREG(0X02,0Xc0);//设置测试信号由内部产生
-	//check=ADS1299_PREG(0X00);
-	check=ADS1299_PREGS();
+	check=ADS1299_PREG(0X00);
+	//check=ADS1299_PREGS();
 	//delay_ms(10);
 	if(check==0x3e) 
 	{
 		
 	//check=ADS1299_PREG(0X00);
-	ADS1299_Command(0x08);
+	//ADS1299_Command(0x08);
 	
 	
 	
-	ADS1299_WREG(0X05,0X00);//第一通道设置短路，测试系统噪声
+	ADS1299_WREG(0X05,0X05);//第一通道设置短路，测试系统噪声
 	//ADS1299_WREG(0X02,0XD0);//测试信号由内部产生
 	//ADS1299_WREG(0x05,0x05);
 	//ADS1299_WREG(0X02,0XD
@@ -277,14 +278,14 @@ u8 ADS1299_Check(void)
 	
 	
 	//ADS1299_START=1;
-	ADS1299_WREG(0X06,0x00);
+	ADS1299_WREG(0X06,0x05);
 	ADS1299_WREG(0X07,0x00);
 	ADS1299_WREG(0X08,0X00);//第一通道设置普通输入
 	ADS1299_WREG(0X09,0x00);
 	ADS1299_WREG(0X0A,0x00);
 	ADS1299_WREG(0X0B,0x00);
 	ADS1299_WREG(0X0C,0x00);
-	//ADS1299_WREG(0X0D,0X01);
+	//ADS1299_WREG(0X0D,0Xff);
 	//ADS1299_WREG(0X0E,0XFF);
 	//ADS1299_WREG(0X03,0xE0);//关闭阻抗测试
 	ADS1299_WREG(0X15,0X10);//SRB1闭合
@@ -347,7 +348,7 @@ void Recev_Data(void)
 	
 	//index1=0;
 	adc_buf2[0]=0xa0;
-	adc_buf2[NETCAM_LINE_SIZE-1]=0xc0;
+	adc_buf2[27-1]=0xc0;
 	if(res3<0xff) 
 	{
 		res3++;
@@ -355,7 +356,7 @@ void Recev_Data(void)
 	else res3=0;
 	adc_buf2[1]=res3;
 	//tcp_server_sendbuf=buf3;
-	for(k=0;k<4;k++)
+	for(k=0;k<1;k++)
 	{
 		ADS1299_CHANGE_CHANEL(k,0);
 		//HAL_SPI_Receive(&SPI2_Handler,&adc_buf2[k*24+2],24,1000);
@@ -514,7 +515,7 @@ __IO	float  w[MWSPT_NSEC][3];
  
 IIRTEMP IIRWDATA[30];
 
-#if 0
+#if 1
 
 /*****************************************************************************
 函数名: float IIRFilter(float ADdata,uint8 chnum)
@@ -594,7 +595,7 @@ float IIRFilter(float ADdata,u8 chnum)
 
 #endif
 
- #if 0
+ #if 1
  
 /*****************************************************************************
 函数名: float IIRNotching(float Xindata,uint8 chnum,uint8 Ntype)
@@ -668,7 +669,7 @@ void Recev_Data(void)
 	//u8 Txda=0xff;
 	//u32 stat1;
 	//u32 Adcres[32];
-	//float  tempdata_f;
+	float  tempdata_f;
 	//arm_fir_instance_f32 S;
 	//index1=0;
 	//arm_fir_instance_f32 S;
@@ -677,7 +678,8 @@ void Recev_Data(void)
 	// output1=&output[0];
 	 //初始化
 	// arm_fir_init_f32(&S,29,(float32_t*)&firCoeffs32BS[0],&res[0],20);
-	
+	adc_buf2[0]=0xa0;
+	adc_buf2[NETCAM_LINE_SIZE-1]=0xc0;
 //	adc_buf2[0]=0xa0;
 //	adc_buf2[26]=0xc0;
 //	if(res3<0xff) 
@@ -687,7 +689,7 @@ void Recev_Data(void)
 //	else res3=0;
 //	adc_buf2[1]=res3;
 	//tcp_server_sendbuf=buf3;
-	for(k=0;k<4;k++)
+	for(k=0;k<1;k++)
 	{
 		ADS1299_CHANGE_CHANEL(k,0);
 		//ADS1299_DMA_Start();
@@ -725,34 +727,42 @@ void Recev_Data(void)
 				//Adcres[i]=(buf1[0]<<16)+(buf1[1]<<8)+buf1[2];
 			//}
 ////////			
-			//n=0;
+			
 			ADS1299_CHANGE_CHANEL(k,1);
-			//delay_us(2);
-			//ADS1299_CS3=1;
-		}
 //			for(i=0;i<8;i++)
 //			{
 //				
 //				//adc_buf2[0]=SPI2_ReadWriteByte(0x00);
-//				Adcres[i]=((u32)adc_buf2[3*i+4])<<24;
-//				Adcres[i]|=((u32)adc_buf2[i*3+5])<<16;
-//				Adcres[i]|=((u32)adc_buf2[i*3+6])<<8;
-//				Adcres[i]/=80;
+//				Adcres[k*8+i]=buf3[3*i+4]<<24;
+//				Adcres[k*8+i]|=buf3[i*3+5]<<16;
+//				Adcres[k*8+i]|=buf3[i*3+6]<<8;
+//				Adcres[k*4+i]/=80;
 //				
 //			}
-		adc_buf2[0]=0xa0;
-	adc_buf2[98]=0xc0;
+//			
+			//delay_us(2);
+			//ADS1299_CS3=1;
+		//}
+			
+		}
+		
 	if(res3<0xff) 
 	{
 		res3++;
 	}
 	else res3=0;
 	adc_buf2[1]=res3;
-//	for(j=0;j<8;j++)
+//	for(i=0;i<8;i++)
 //	{
-//		adc_buf2[3*j+4]=(u8)(Adcres[j]>>16);
-//		adc_buf2[3*j+5]=(u8)(Adcres[j]>>8);
-//		adc_buf2[3*j+6]=(u8)Adcres[j];
+//		tempdata_f=IIRNotching(Adcres[i],i,1);
+//		tempdata_f=IIRFilter(tempdata_f,i);
+//		Adcres[i]=tempdata_f;
+//	}
+//	for(j=0;j<32;j++)
+//	{
+//		adc_buf2[3*j+2]=(Adcres[j]>>24);
+//		adc_buf2[3*j+3]=(Adcres[j]>>16);
+//		adc_buf2[3*j+4]=(Adcres[j]>>8);
 //	}
 		//}
 //		if(index1++>=20)

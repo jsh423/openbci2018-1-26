@@ -106,3 +106,5 @@
 ..\obj\main.o: ..\LWIP\lwip-1.4.1\src\include\lwip/tcp.h
 ..\obj\main.o: ..\LWIP\lwip-1.4.1\src\include\ipv4\lwip/ip.h
 ..\obj\main.o: ..\LWIP\lwip-1.4.1\src\include\ipv4\lwip/icmp.h
+..\obj\main.o: ..\HARDWARE\ADS1299\ads1299.h
+..\obj\main.o: ..\HARDWARE\AD5933\ad5933.h

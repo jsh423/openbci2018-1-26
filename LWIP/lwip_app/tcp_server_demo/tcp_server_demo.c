@@ -72,9 +72,10 @@ u8 netcam_fifo_write(u8 *buf)
 //	{
 	//netcamfifobuf[netcamfifowrpos*NETCAM_LINE_SIZE+i]=buf[i];//拷贝数据
 	//for(i=0;i<NETCAM_LINE_SIZE;i++)	netcamfifobuf[i]=buf[i];//拷贝数据
-		for(i=0;i<NETCAM_LINE_SIZE;i++)	netcamfifobuf[netcamfifowrpos*NETCAM_LINE_SIZE+i]=buf[i];//拷贝数据
+		//for(i=0;i<NETCAM_LINE_SIZE;i++)	netcamfifobuf[netcamfifowrpos*NETCAM_LINE_SIZE+i]=buf[i];//拷贝数据
+		memcpy(&netcamfifobuf[netcamfifowrpos*NETCAM_LINE_SIZE],buf,NETCAM_LINE_SIZE);
 		netcamfifowrpos++;			//写位置加1
-		if(netcamfifowrpos<32)return 0;
+		if(netcamfifowrpos<NETCAM_FIFO_NUM)return 0;
 		else
 		{
 			netcamfifowrpos=0;
@@ -108,8 +109,8 @@ u8 netcam_fifo_write(u8 *buf)
 u8 netmem_malloc(void)
 {
 //    u16 t=0;
-    netcam_line_buf0=mymalloc(SRAMIN,NETCAM_LINE_SIZE);
-	netcam_line_buf1=mymalloc(SRAMIN,NETCAM_LINE_SIZE);
+    //netcam_line_buf0=mymalloc(SRAMIN,NETCAM_LINE_SIZE);
+	//netcam_line_buf1=mymalloc(SRAMIN,NETCAM_LINE_SIZE);
 
     //给FIFO申请内存
 	netcamfifobuf=mymalloc(SRAMIN,NETCAM_LINE_SIZE*NETCAM_FIFO_NUM);
@@ -136,12 +137,12 @@ u8 netmem_malloc(void)
 void netmem_free(void)
 {
    // u16 t=0;
-    myfree(SRAMIN,netcam_line_buf0);
-    myfree(SRAMIN,netcam_line_buf1);
+   // myfree(SRAMIN,netcam_line_buf0);
+    //myfree(SRAMIN,netcam_line_buf1);
     //释放FIFO的内存
     //for(t=0;t<NETCAM_FIFO_NUM;t++) 
 	//{
-        myfree(SRAMEX,netcamfifobuf);
+        myfree(SRAMIN,netcamfifobuf);
 	//}  
 }
  //ADS1299数据接收回调函数
@@ -155,9 +156,9 @@ static void spi2_rx_dma_callback(void)
 //openbci初始化
 void hardware_init(void)
 {
-	netmem_malloc();
 	
-	ADS1299_Init();
+	
+	
 	
 	while(1) 									//初始化tcp_server(创建tcp_server程)
 	{
@@ -190,19 +191,13 @@ void tcp_server_test(void)
 	u8 res=0,res1=0;		
 	u8 t=0; 
 	
-	//LCD_Clear(WHITE);	//清屏
-	POINT_COLOR=RED; 	//红色字体
-//	LCD_ShowString(30,30,200,16,16,"Apollo STM32F4/F7");
-//	LCD_ShowString(30,50,200,16,16,"TCP Server Test");
-//	LCD_ShowString(30,70,200,16,16,"ATOM@ALIENTEK");  
-//	LCD_ShowString(30,90,200,16,16,"KEY0:Send data");  
-//	LCD_ShowString(30,110,200,16,16,"KEY_UP:Quit");  
+	
+	
 	tbuf=mymalloc(SRAMIN,200);	//申请内存
+	netmem_malloc();
 	if(tbuf==NULL)return ;		//内存申请失败了,直接退出
-	sprintf((char*)tbuf,"Server IP:%d.%d.%d.%d",lwipdev.ip[0],lwipdev.ip[1],lwipdev.ip[2],lwipdev.ip[3]);//服务器IP
-	//LCD_ShowString(30,130,210,16,16,tbuf);  
-	sprintf((char*)tbuf,"Server Port:%d",TCP_SERVER_PORT);//服务器端口号
-	//LCD_ShowString(30,150,210,16,16,tbuf); 
+	//sprintf((char*)tbuf,"Server IP:%d.%d.%d.%d",lwipdev.ip[0],lwipdev.ip[1],lwipdev.ip[2],lwipdev.ip[3]);//服务器IP
+	//sprintf((char*)tbuf,"Server Port:%d",TCP_SERVER_PORT);//服务器端口号 
 	tcppcbnew=tcp_new();	//创建一个新的pcb
 	if(tcppcbnew)			//创建成功
 	{ 
@@ -213,37 +208,39 @@ void tcp_server_test(void)
 			tcp_accept(tcppcbconn,tcp_server_accept); 	//初始化LWIP的tcp_accept的回调函数
 		}else res=1;  
 	}else res=1;
-	//hardware_init();
-//	while(!(tcp_server_flag&1<<5))
-//	{
-//		hardware_init();
-//	}
-	//POINT_COLOR=BLUE;//蓝色字体
-	while(res==0)
+	
+	hardware_init();
+	if((tcp_server_flag&1<<5)&&(res==0))
 	{
-		//key=KEY_Scan(0);
-		//if(key==WKUP_PRES)break;
-		if(tcp_server_flag&1<<5)//是否连接上?
-		{
-			hardware_init();
-			res1=1;
-		}
-		delay_ms(10);
-		while(res1==1)
-		{
+		res1=1;
+	}
+	while(res1==1)//如果已经连上
+	{
+//		while(res1==1)
+//		{
 		if(tcp_server_flag&1<<7)//有数据要发送)//KEY0按下了,发送数据
 		{
 			netcam_fifo_read(&tcp_server_sendbuf);
+			//tcp_server_sendbuf=netcamfifobuf;
             tcp_server_usersent(tcppcbnew);//发送数据
 		}
 		if(tcp_server_flag&1<<6)//是否收到数据?
 		{
+			Data_Process();
 			//LCD_Fill(30,210,lcddev.width-1,lcddev.height-1,WHITE);//清上一次数据
 			//LCD_ShowString(30,210,lcddev.width-30,lcddev.height-210,16,tcp_server_recvbuf);//显示接收到的数据	
+			//此处对通信数据进行解析
+			//包头包尾是否正确
+			//命令字判断
+			//21：设备参数上传
+			//11：采样率设置
+			//12:险波设置
+			//13：滤波设置
+			//01：AD数据采集
 			tcp_server_flag&=~(1<<6);//标记数据已经被处理了.
 		}
 		
-		}
+		//}
 		if((tcp_server_flag&1<<5)==0)
 		{
 			res1=0;
@@ -251,13 +248,13 @@ void tcp_server_test(void)
 		}
 		lwip_periodic_handle();
 		delay_ms(2);
-		t++;
-		if(t==200)
-		{
-			t=0;
-			
-			LED0!=LED0;
-		} 
+//		t++;
+//		if(t==200)
+//		{
+//			t=0;
+//			
+//			LED0!=LED0;
+//		} 
 	}   
 	tcp_server_connection_close(tcppcbnew,0);//关闭TCP Server连接
 	tcp_server_connection_close(tcppcbconn,0);//关闭TCP Server连接 
@@ -265,7 +262,7 @@ void tcp_server_test(void)
 	memset(tcppcbnew,0,sizeof(struct tcp_pcb));
 	memset(tcppcbconn,0,sizeof(struct tcp_pcb)); 
 	myfree(SRAMIN,tbuf);
-
+	netmem_free();
 	
 } 
 //lwIP tcp_accept()的回调函数
@@ -345,6 +342,7 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err
 		es->p=NULL;
 		pbuf_free(p); //释放内存
 		ret_err=ERR_OK;
+		tcp_server_flag&=~(1<<5);//标记连接断开了
 	}
 	return ret_err;
 }
@@ -368,8 +366,8 @@ err_t tcp_server_usersent(struct tcp_pcb *tpcb)
 	{
 //es->p=pbuf_alloc(PBUF_TRANSPORT, strlen((char*)tcp_server_sendbuf),PBUF_POOL);	//申请内存 
        // pbuf_take(es->p,(char*)tcp_server_sendbuf,strlen((char*)tcp_server_sendbuf));	//将tcp_server_sentbuf[]中的数据拷贝到es->p_tx中
-		es->p=pbuf_alloc(PBUF_TRANSPORT, Num*99,PBUF_POOL);	//申请内存 
-        pbuf_take(es->p,(char*)tcp_server_sendbuf,Num*99);	//将tcp_server_sentbuf[]中的数据拷贝到es->p_tx中
+		es->p=pbuf_alloc(PBUF_TRANSPORT, Num*NETCAM_LINE_SIZE,PBUF_POOL);	//申请内存 
+        pbuf_take(es->p,(char*)tcp_server_sendbuf,Num*NETCAM_LINE_SIZE);	//将tcp_server_sentbuf[]中的数据拷贝到es->p_tx中
         tcp_server_senddata(tpcb,es);   //将tcp_server_sentbuf[]里面复制给pbuf的数据发送出去
         tcp_server_flag&=~(1<<7);	    //清除数据发送标志
         if(es->p!=NULL)pbuf_free(es->p);//释放内存
@@ -463,9 +461,37 @@ void tcp_server_remove_timewait(void)
 	}
 }
 
-
-
-
+void Data_Process(void)
+{
+	u8 res;
+	if(tcp_server_recvbuf[0]==0xa0)
+	{
+		switch(tcp_server_recvbuf[1])
+		{
+		case 1:  //数据采集启动
+			ADS1299_START=1;//ADS1299芯片启动
+		break;
+		case 11: //采样率设置
+			
+		break;
+		
+		case 12://陷波设置
+			
+		break;
+		
+		case 13: //滤波设置
+			
+		break;
+		
+		case 21://设备参数查询
+			
+			
+		break;
+		default :
+		break;
+		}
+	}
+}
 
 
 

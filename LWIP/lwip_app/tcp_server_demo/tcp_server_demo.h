@@ -26,8 +26,8 @@
 #define TCP_SERVER_RX_BUFSIZE	2000		//定义tcp server最大接收数据长度
 #define TCP_SERVER_PORT			8088	//定义tcp server的端口
  
-#define NETCAM_FIFO_NUM			128			//定义FIFO数量
-#define NETCAM_LINE_SIZE		99	//定义行大小(*4字节)
+#define NETCAM_FIFO_NUM			16			//定义FIFO数量
+#define NETCAM_LINE_SIZE		27	//定义行大小(*4字节)
 
 extern u8 tcp_server_flag;	
 extern u8 Num;
@@ -57,4 +57,5 @@ err_t tcp_server_sent(void *arg, struct tcp_pcb *tpcb, u16_t len);
 void tcp_server_senddata(struct tcp_pcb *tpcb, struct tcp_server_struct *es);
 void tcp_server_connection_close(struct tcp_pcb *tpcb, struct tcp_server_struct *es);
 void tcp_server_remove_timewait(void);
+void Data_Process(void);
 #endif 
