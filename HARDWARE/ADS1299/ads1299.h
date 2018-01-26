@@ -26,7 +26,9 @@
 #define ADS1299_START   PCout(7)
 #define ADS1299_PWDN0	PCout(6)
 #define LED0 PBout(1)   //LED0
-#define ADS1299_ID 0X3E									   	   
+#define ADS1299_ID 0X3E		
+
+#define openvibeflag 0  //如果采用openvibe协议置一，否则为零
 
 //void NRF24L01_Init(void);//初始化
 void ADS1299_Init(void);
@@ -38,11 +40,15 @@ void ADS1299_IT(void);
 u8 ADS1299_Check(void);
 void ADS1299_CHANGE_CHANEL(u8 n,u8 sw);
 void Recev_Data(void);
+void Set_Sps(u8 i);
+
 //void led_task(void *pdata);
 //extern u8 adc_buf2[20][27];
 extern void *Sem_Task_ads1299;
 //extern u8 adc_buf2[28];
+extern u8 parameter[10];
 
+extern u8 sps;
 
 //SPI Command Definition Byte Assignments (Datasheet, p35)
 #define _WAKEUP 0x02 // Wake-up from standby mode

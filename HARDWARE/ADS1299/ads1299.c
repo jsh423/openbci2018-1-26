@@ -18,12 +18,13 @@ u8 check=0;
 u8 TxData0[28]={0x12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //发送地址
 //u8 TxData1[24]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 u8 RxData[4]; //发送地址
-
+u8 sps=0x05;
+u8 parameter[10];
 u8 Flag_adc;
 u32 stat;
 u8 index1=0;
 u8 res3;
-u8 adc_buf2[99];
+u8 adc_buf2[101];
  //adc_buf2[0]=0xaa;
 int32_t Adcres[32];
 //float32_t input[20];
@@ -122,7 +123,7 @@ void ADS1299_Init(void)
 	// NRF24L01_SPI_Init();                    //针对NRF的特点修改SPI的设置
 	delay_ms(50);
 
-	SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_8); //spi速度为11.25Mhz（24L01的最大SPI时钟为10Mhz,这里大一点没关系） 
+	SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_16); //spi速度为11.25Mhz（24L01的最大SPI时钟为10Mhz,这里大一点没关系） 
 	ADS1299_START=0;
 	ADS1299_CS0=1; //屏蔽第一片ADS1299,测试单芯片
 	ADS1299_CS1=1;
@@ -150,9 +151,52 @@ void ADS1299_Init(void)
 	//delay_ms(2);
 	//ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
 	//ADS1299_WREG(0X03,0xe0);//开启内部基准
-
+	parameter[0]=0xa0;//帧头
+	parameter[1]=8;//帧长
+	parameter[9]=0xc0;//帧尾
+	parameter[2]=0x21;
+	parameter[3]=0x00;//设备代码为00脑电
+	parameter[4]=32;//导联数为32
+	parameter[5]=1;		//放大倍数为24倍
+	parameter[6]=sps;	//采样率：06为250，05为500sps,04为1Ksps,03为2Ksps
+	parameter[7]=0;		//目前滤波放到上位机
+	parameter[8]=0;
+	
 	delay_ms(20);
-	 		 	 
+	 	ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
+	ADS1299_WREG(0X03,0xe0);//开启内部基准
+	
+	delay_ms(10);
+	//ADS1299_RDATAC();
+	//SPI2_ReadWriteByte(0x0);
+	//SPI2_ReadWriteByte(_SDATAC);
+	//delay_us(10);
+	//ADS1299_CS0=1;
+	ADS1299_WREG(0X01,0X94);	//设置多回读模式，通信速率250SPS 1k	 	 
+//	ADS1299_WREG(0X05,0X00);//第一通道设置短路，测试系统噪声
+//	//ADS1299_WREG(0X02,0XD0);//测试信号由内部产生
+//	//ADS1299_WREG(0x05,0x05);
+//	//ADS1299_WREG(0X02,0XD
+////	ADS1299_WREG(0X05,0X0A);//第一通道设置为测试信号输入 此处测试BIASREF
+////	ADS1299_WREG(0X03,0XF0);//开启内部基准
+//	
+//	
+//	//ADS1299_START=1;
+//	ADS1299_WREG(0X06,0x05);
+//	ADS1299_WREG(0X07,0x00);
+//	ADS1299_WREG(0X08,0X00);//第一通道设置普通输入
+//	ADS1299_WREG(0X09,0x00);
+//	ADS1299_WREG(0X0A,0x00);
+//	ADS1299_WREG(0X0B,0x00);
+//	ADS1299_WREG(0X0C,0x00);
+//	//ADS1299_WREG(0X0D,0Xff);
+//	//ADS1299_WREG(0X0E,0XFF);
+//	//ADS1299_WREG(0X03,0xE0);//关闭阻抗测试
+//	ADS1299_WREG(0X15,0X10);//SRB1闭合
+//	//ADS1299_RDATAC();//连续模式
+//	ADS1299_Command(0x12);//命令读取数据模式
+//	delay_ms(5);
+	//ADS1299_IT();
 }
 #if 0
 u32 buf1[3];
@@ -213,9 +257,10 @@ void ADS1299_IT(void)
     HAL_GPIO_Init(GPIOA,&GPIO_Initure);
 	
 	 //中断线13-PC13
-    HAL_NVIC_SetPriority(EXTI4_IRQn,0,1);   //抢占优先级为2，子优先级为1
+    HAL_NVIC_SetPriority(EXTI4_IRQn,1,1);   //抢占优先级为2，子优先级为1
     HAL_NVIC_EnableIRQ(EXTI4_IRQn);         //使能中断线13 
-	ADS1299_START=1;
+	if(openvibeflag) ADS1299_START=1;
+	else ADS1299_START=0;
 	//ADS1299_Command(0x08);
 	delay_ms(10);
 	//ADS1299_RDATAC();
@@ -247,21 +292,12 @@ u8 ADS1299_Check(void)
 	//ADS1299_START=1;
 	//delay_ms(1000);
 	
-	ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
-	ADS1299_WREG(0X03,0xe0);//开启内部基准
 	
-	delay_ms(10);
-	//ADS1299_RDATAC();
-	//SPI2_ReadWriteByte(0x0);
-	//SPI2_ReadWriteByte(_SDATAC);
-	//delay_us(10);
-	//ADS1299_CS0=1;
-	ADS1299_WREG(0X01,0X95);	//设置多回读模式，通信速率250SPS 1k
 	//ADS1299_WREG(0X02,0Xc0);//设置测试信号由内部产生
 	check=ADS1299_PREG(0X00);
 	//check=ADS1299_PREGS();
 	//delay_ms(10);
-	if(check==0x3e) 
+//	if(check==0x3e) 
 	{
 		
 	//check=ADS1299_PREG(0X00);
@@ -279,7 +315,7 @@ u8 ADS1299_Check(void)
 	
 	//ADS1299_START=1;
 	ADS1299_WREG(0X06,0x05);
-	ADS1299_WREG(0X07,0x00);
+	ADS1299_WREG(0X07,0x05);
 	ADS1299_WREG(0X08,0X00);//第一通道设置普通输入
 	ADS1299_WREG(0X09,0x00);
 	ADS1299_WREG(0X0A,0x00);
@@ -291,27 +327,35 @@ u8 ADS1299_Check(void)
 	ADS1299_WREG(0X15,0X10);//SRB1闭合
 	//ADS1299_RDATAC();//连续模式
 	ADS1299_Command(0x12);//命令读取数据模式
+	SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_8); //spi速度为11.25Mhz（24L01的最大SPI时钟为10Mhz,这里大一点没关系） 
 		delay_ms(1);
 	//ADS1299_CS0=0;
 	return 0;
 	}
 		
 	
-	else return 1;
+	//else return 1;
 	//else return 0;
 //	NRF24L01_Write_Buf(NRF_WRITE_REG+TX_ADDR,buf,5);//写入5个字节的地址.	
 //	NRF24L01_Read_Buf(TX_ADDR,buf,5); //读出写入的地址  
 //	for(i=0;i<5;i++)if(buf[i]!=0XA5)break;	 							   
 //	if(i!=5)return 1;//检测24L01错误	
 //	return 0;		 //检测到24L01
-}	 	 
+}	 
 
+void Set_Sps(u8 i)
+{
+				ADS1299_START=0;//先将ADS1299数据采样给关掉
+				ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置//进入设置模式
+				ADS1299_WREG(0X01,(0X90|sps));	//设置多回读模式，通信速率250SPS 1k//设置采样率
+				ADS1299_Command(0x12);//命令读取数据模式//退出设置模式
+}
 
 //读取寄存器数据
 u8 ADS1299_PREG(u8 reg)
 {
 	  u8 Byte;	
-   	ADS1299_CS0=0;                 //使能SPI传输
+   	ADS1299_CS3=0;                 //使能SPI传输
 //delay_us(200);
   	SPI2_ReadWriteByte(0X00|0X20);//发送寄存器号
 	
@@ -319,7 +363,7 @@ u8 ADS1299_PREG(u8 reg)
 	Byte=SPI2_ReadWriteByte(0);
 //	status=SPI2_ReadWriteByte(0);
 	//delay_us(2);
-  	ADS1299_CS0=1;                 //禁止SPI传输	   
+  	ADS1299_CS3=1;                 //禁止SPI传输	   
   	return(Byte);       		    //返回状态值
 }
 //写入ADS1299寄存器数据
@@ -657,9 +701,8 @@ float IIRNotching(float Xindata,u8 chnum,u8 Ntype)
  }
  #endif
 #endif 
-
 //采用滤波处理
-#if 1					  
+					  
 void Recev_Data(void)
 {
 	u8 i,j,k,n=0;
@@ -678,18 +721,28 @@ void Recev_Data(void)
 	// output1=&output[0];
 	 //初始化
 	// arm_fir_init_f32(&S,29,(float32_t*)&firCoeffs32BS[0],&res[0],20);
+	if(res3<0xff) 
+	{
+		res3++;
+	}
+	else res3=0;
 	adc_buf2[0]=0xa0;
-	adc_buf2[NETCAM_LINE_SIZE-1]=0xc0;
-//	adc_buf2[0]=0xa0;
+	if(openvibeflag) 
+	{
+		adc_buf2[1]=res3;
+		adc_buf2[98]=0xc0;
+	}
+	else
+	{
+	adc_buf2[1]=sizeof(adc_buf2)-2;
+	adc_buf2[100]=0xc0;
+	adc_buf2[2]=0x01;
 //	adc_buf2[26]=0xc0;
-//	if(res3<0xff) 
-//	{
-//		res3++;
-//	}
-//	else res3=0;
-//	adc_buf2[1]=res3;
+	
+	adc_buf2[3]=res3;
+	}
 	//tcp_server_sendbuf=buf3;
-	for(k=0;k<1;k++)
+	for(k=0;k<4;k++)
 	{
 		ADS1299_CHANGE_CHANEL(k,0);
 		//ADS1299_DMA_Start();
@@ -706,7 +759,9 @@ void Recev_Data(void)
 //	 }
 		//HAL_SPI_TransmitReceive(&SPI2_Handler,TxData0,RxData,4, 1000); 
 		HAL_SPI_TransmitReceive(&SPI2_Handler,TxData0,buf3,28, 1200); 
-		memcpy(&adc_buf2[k*24+2],&buf3[4],24);
+		if(openvibeflag) memcpy(&adc_buf2[k*24+2],&buf3[4],24);
+		else
+		memcpy(&adc_buf2[k*24+4],&buf3[4],24);
 //		SPI2_ReadWriteByte(0x12);
 //		SPI2_ReadWriteByte(0x00);
 //		SPI2_ReadWriteByte(0x00);
@@ -742,92 +797,20 @@ void Recev_Data(void)
 //			
 			//delay_us(2);
 			//ADS1299_CS3=1;
+			
 		//}
 			
 		}
-		
-	if(res3<0xff) 
-	{
-		res3++;
-	}
-	else res3=0;
-	adc_buf2[1]=res3;
-//	for(i=0;i<8;i++)
-//	{
-//		tempdata_f=IIRNotching(Adcres[i],i,1);
-//		tempdata_f=IIRFilter(tempdata_f,i);
-//		Adcres[i]=tempdata_f;
-//	}
-//	for(j=0;j<32;j++)
-//	{
-//		adc_buf2[3*j+2]=(Adcres[j]>>24);
-//		adc_buf2[3*j+3]=(Adcres[j]>>16);
-//		adc_buf2[3*j+4]=(Adcres[j]>>8);
-//	}
-		//}
-//		if(index1++>=20)
-//		{
-//			//for(i=0;i<20;i++0
-//			//arm_fir_f32_bs();
-////				for(i=0;i<32;i++)
-////				{
-////					
-////					for(j=0;j<20;j++)
-////					{
-////						input[j]=Adcres[j][i];
-////					}
-////				//	arm_fir_f32(&S,input1,output1,20);
-////					//arm_fir_f32_bs();
-////					for(j=0;j<20;j++)
-////					{
-////						Adcres[j][i]=output[j];
-////					}
-////				}
-//				for(i=0;i<20;i++)
-//				{
-//					for(j=0;j<32;j++)
-//					{
-//						adc_buf2[j*3+4]=(u8)Adcres[i][j];
-//						adc_buf2[j*3+3]=(u8)(Adcres[i][j]>>8);
-//						adc_buf2[j*3+2]=(u8)(Adcres[i][j]>>16);
-//					}
-//				if(res3<0xff) 
-//				{
-//					res3++;
-//				}
-//				else res3=0;
-//				adc_buf2[1]=res3;
-//Num=netcam_fifo_write(adc_buf2);
-				//}
-//			if((Num>0)&&(~(tcp_server_flag&1<<7)))
-//			{
-//			tcp_server_flag|=(1<<7);//有数据要发送
-//			//Num=index1;
-//				
-//			}
-			//index1=0;		
-		//}	
-		//}
-//		for(i=0;i<32;i++)
-//			{		
-//				tempdata_f=IIRNotching(Adcres[i],i,1);
-//				tempdata_f=IIRFilter(tempdata_f,i);
-//				Adcres[i]=(u32)tempdata_f;
-//				//for(j=0;j<3;j++)
-//				//{
-//				adc_buf2[i*3+2+2]=(u8)Adcres[i];
-//					adc_buf2[i*3+3]=(u8)(Adcres[i]>>8);
-//					adc_buf2[i*3+2]=(u8)(Adcres[i]>>16);
-//			}
-				Num=netcam_fifo_write(&adc_buf2[0]);
+			//if(openvibeflag) 
+			Num=netcam_fifo_write(&adc_buf2[0]);
 			if((Num>0)&&(~(tcp_server_flag&1<<7)))
 			{
 				tcp_server_flag|=(1<<7);//有数据要发送
+				
 //				//Num=index1;
 ////				//index1=0;
 			}
 }
-#endif
  
 void EXTI4_IRQHandler(void)
 {

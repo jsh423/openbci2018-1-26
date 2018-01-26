@@ -80,8 +80,6 @@
 ..\obj\main.o: ..\HARDWARE\SDRAM\sdram.h
 ..\obj\main.o: ..\HARDWARE\LAN8720\lan8720.h
 ..\obj\main.o: ..\HARDWARE\TIMER\timer.h
-..\obj\main.o: ..\HARDWARE\PCF8574\pcf8574.h
-..\obj\main.o: ..\HARDWARE\IIC\myiic.h
 ..\obj\main.o: ..\USMART\usmart.h
 ..\obj\main.o: ..\USMART\usmart_str.h
 ..\obj\main.o: ..\MALLOC\malloc.h
@@ -108,3 +106,6 @@
 ..\obj\main.o: ..\LWIP\lwip-1.4.1\src\include\ipv4\lwip/icmp.h
 ..\obj\main.o: ..\HARDWARE\ADS1299\ads1299.h
 ..\obj\main.o: ..\HARDWARE\AD5933\ad5933.h
+..\obj\main.o: ..\HARDWARE\tca6424a\TCA6424A.h
+..\obj\main.o: ..\HARDWARE\ADG731\adg731.h
+..\obj\main.o: ..\HARDWARE\IIC\myiic.h

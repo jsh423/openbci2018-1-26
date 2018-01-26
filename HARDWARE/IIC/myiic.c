@@ -60,8 +60,8 @@ u8 IIC_Wait_Ack(void)
 {
 	u8 ucErrTime=0;
 	SDA_IN();      //SDA…Ë÷√Œ™ ‰»Î  
-	//IIC_SDA=1;
-	delay_us(1);	   
+	IIC_SDA=1;
+	delay_us(2);	   
 	IIC_SCL=1;delay_us(2);	 
 	while(READ_SDA)
 	{

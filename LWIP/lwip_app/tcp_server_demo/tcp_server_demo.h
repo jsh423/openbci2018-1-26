@@ -8,26 +8,18 @@
 #include "lwip/mem.h"
 #include "lwip_comm.h"
 //////////////////////////////////////////////////////////////////////////////////	 
-//本程序只供学习使用，未经作者许可，不得用于其它任何用途
-//ALIENTEK STM32F746开发板
-//TCP Server 测试代码	   
-//正点原子@ALIENTEK
-//技术论坛:www.openedv.com
-//创建日期:2016/1/1
-//版本：V1.0
-//版权所有，盗版必究。
-//Copyright(C) 广州市星翼电子科技有限公司 2009-2019
+
 //All rights reserved									  
 //*******************************************************************************
 //修改信息
 //无
 ////////////////////////////////////////////////////////////////////////////////// 	   
  
-#define TCP_SERVER_RX_BUFSIZE	2000		//定义tcp server最大接收数据长度
+#define TCP_SERVER_RX_BUFSIZE	200		//定义tcp server最大接收数据长度
 #define TCP_SERVER_PORT			8088	//定义tcp server的端口
  
-#define NETCAM_FIFO_NUM			16			//定义FIFO数量
-#define NETCAM_LINE_SIZE		27	//定义行大小(*4字节)
+#define NETCAM_FIFO_NUM			50			//定义FIFO数量
+#define NETCAM_LINE_SIZE		101	//定义行大小(*4字节)
 
 extern u8 tcp_server_flag;	
 extern u8 Num;

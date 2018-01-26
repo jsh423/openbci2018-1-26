@@ -102,3 +102,6 @@
 ..\obj\tcp_server_demo.o: ..\MALLOC\malloc.h
 ..\obj\tcp_server_demo.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\tcp_server_demo.o: ..\HARDWARE\ADS1299\ads1299.h
+..\obj\tcp_server_demo.o: ..\HARDWARE\ADG731\adg731.h
+..\obj\tcp_server_demo.o: ..\HARDWARE\tca6424a\tca6424a.h
+..\obj\tcp_server_demo.o: ..\HARDWARE\AD5933\ad5933.h

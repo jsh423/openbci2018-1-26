@@ -102,5 +102,3 @@
 ..\obj\lwip_comm.o: ..\MALLOC\malloc.h
 ..\obj\lwip_comm.o: ..\SYSTEM\delay\delay.h
 ..\obj\lwip_comm.o: ..\SYSTEM\usart\usart.h
-..\obj\lwip_comm.o: ..\HARDWARE\PCF8574\pcf8574.h
-..\obj\lwip_comm.o: ..\HARDWARE\IIC\myiic.h

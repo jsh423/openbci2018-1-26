@@ -122,7 +122,7 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
     GPIO_Initure.Pin=GPIO_PIN_13|GPIO_PIN_14;   //PG13,14
     HAL_GPIO_Init(GPIOG,&GPIO_Initure);         //初始化
     
-    HAL_NVIC_SetPriority(ETH_IRQn,1,1);         //网络中断优先级应该高一点
+    HAL_NVIC_SetPriority(ETH_IRQn,1,2);         //网络中断优先级应该高一点
     HAL_NVIC_EnableIRQ(ETH_IRQn);
 }
 //读取PHY寄存器值

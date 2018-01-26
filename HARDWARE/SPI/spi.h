@@ -14,15 +14,15 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
 
-extern SPI_HandleTypeDef SPI5_Handler;  //SPI5¾ä±ú
+extern SPI_HandleTypeDef SPI3_Handler;  //SPI5¾ä±ú
 extern SPI_HandleTypeDef SPI2_Handler;  //SPI2¾ä±ú
 extern DMA_HandleTypeDef   DMASPIRx_Handler;        //DMA¾ä±ú
 
 extern void (*spi2_rx_callback)(void);
 
-void SPI5_Init(void);
-void SPI5_SetSpeed(u8 SPI_BaudRatePrescaler);
-u8 SPI5_ReadWriteByte(u8 TxData);
+void SPI3_Init(void);
+void SPI3_SetSpeed(u8 SPI_BaudRatePrescaler);
+u8 SPI3_WriteByte(u8 TxData);
 //void BCI_DMA_Init(u32 mem0addr,u32 mem1addr,u16 memsize,u32 memblen,u32 meminc);
 void BCI_DMA_Init(u8 mem0addr,u8 mem1addr,u8 memsize);
 void ADS1299_DMA_Start(void);

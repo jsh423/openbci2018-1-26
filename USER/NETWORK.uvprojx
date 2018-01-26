@@ -335,7 +335,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F429xx</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\OBJ;..\USER;..\HALLIB\STM32F4xx_HAL_Driver\Inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\SDRAM;..\HARDWARE\KEY;..\HARDWARE\IIC;..\HARDWARE\LAN8720;..\HARDWARE\PCF8574;..\HARDWARE\TIMER;..\USMART;..\MALLOC;..\LWIP;..\LWIP\arch;..\LWIP\lwip-1.4.1\src\include;..\LWIP\lwip-1.4.1\src\include\ipv4;..\LWIP\lwip-1.4.1\src\include\netif;..\LWIP\lwip_app\lwip_comm;..\LWIP\lwip_app\tcp_server_demo;..\HARDWARE\ADS1299;..\HARDWARE\SPI;..\HARDWARE\AD5933</IncludePath>
+              <IncludePath>..\CORE;..\OBJ;..\USER;..\HALLIB\STM32F4xx_HAL_Driver\Inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\SDRAM;..\HARDWARE\KEY;..\HARDWARE\IIC;..\HARDWARE\LAN8720;..\HARDWARE\PCF8574;..\HARDWARE\TIMER;..\USMART;..\MALLOC;..\LWIP;..\LWIP\arch;..\LWIP\lwip-1.4.1\src\include;..\LWIP\lwip-1.4.1\src\include\ipv4;..\LWIP\lwip-1.4.1\src\include\netif;..\LWIP\lwip_app\lwip_comm;..\LWIP\lwip_app\tcp_server_demo;..\HARDWARE\ADS1299;..\HARDWARE\SPI;..\HARDWARE\AD5933;..\HARDWARE\tca6424a;..\HARDWARE\ADG731</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -603,6 +603,21 @@
               <FileName>AD5933.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\AD5933\AD5933.c</FilePath>
+            </File>
+            <File>
+              <FileName>TCA6424A.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\tca6424a\TCA6424A.c</FilePath>
+            </File>
+            <File>
+              <FileName>ADG731.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\ADG731\ADG731.c</FilePath>
+            </File>
+            <File>
+              <FileName>led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\LED\led.c</FilePath>
             </File>
           </Files>
         </Group>
