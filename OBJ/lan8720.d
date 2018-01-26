@@ -72,16 +72,6 @@
 ..\obj\lan8720.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h
 ..\obj\lan8720.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h
 ..\obj\lan8720.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h
-..\obj\lan8720.o: ..\HARDWARE\PCF8574\pcf8574.h
-..\obj\lan8720.o: ..\HARDWARE\IIC\myiic.h
 ..\obj\lan8720.o: ..\LWIP\lwip_app\lwip_comm\lwip_comm.h
 ..\obj\lan8720.o: ..\SYSTEM\delay\delay.h
 ..\obj\lan8720.o: ..\MALLOC\malloc.h
-..\obj\lan8720.o: ..\UCOSII\uCOS-CONFIG\includes.h
-..\obj\lan8720.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-..\obj\lan8720.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
-..\obj\lan8720.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\lan8720.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
-..\obj\lan8720.o: ..\UCOSII\uCOS-II\Source\ucos_ii.h
-..\obj\lan8720.o: ..\UCOSII\uCOS-CONFIG\os_cfg.h
-..\obj\lan8720.o: ..\UCOSII\uCOS-II\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h

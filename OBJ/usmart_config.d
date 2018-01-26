@@ -75,5 +75,3 @@
 ..\obj\usmart_config.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h
 ..\obj\usmart_config.o: ..\SYSTEM\delay\delay.h
 ..\obj\usmart_config.o: ..\MALLOC\malloc.h
-..\obj\usmart_config.o: ..\HARDWARE\OV5640\ov5640.h
-..\obj\usmart_config.o: ..\HARDWARE\OV5640\sccb.h

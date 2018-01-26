@@ -72,3 +72,12 @@
 ..\obj\spi.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h
 ..\obj\spi.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h
 ..\obj\spi.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h
+..\obj\spi.o: ..\..\openbci\LWIP\lwip_app\openbci\openbci.h
+..\obj\spi.o: ..\UCOSII\uCOS-CONFIG\includes.h
+..\obj\spi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\obj\spi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+..\obj\spi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\spi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+..\obj\spi.o: ..\UCOSII\uCOS-II\Source\ucos_ii.h
+..\obj\spi.o: ..\UCOSII\uCOS-CONFIG\os_cfg.h
+..\obj\spi.o: ..\UCOSII\uCOS-II\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h

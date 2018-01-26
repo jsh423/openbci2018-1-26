@@ -13,7 +13,6 @@
 #include "malloc.h"
 #include "delay.h"
 #include "usart.h" 
-#include "pcf8574.h"
 #include <stdio.h>
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
@@ -97,7 +96,7 @@ void lwip_comm_default_ip_set(__lwip_dev *lwipx)
 	//默认远端IP为:192.168.1.100
 	lwipx->remoteip[0]=192;	
 	lwipx->remoteip[1]=168;
-	lwipx->remoteip[2]=1;
+	lwipx->remoteip[2]=0;
 	lwipx->remoteip[3]=57;
 	//MAC地址设置(高三字节固定为:2.0.0,低三字节用STM32唯一ID)
 	lwipx->mac[0]=2;//高三字节(IEEE称之为组织唯一ID,OUI)地址固定为:2.0.0
@@ -109,7 +108,7 @@ void lwip_comm_default_ip_set(__lwip_dev *lwipx)
 	//默认本地IP为:192.168.1.30
 	lwipx->ip[0]=192;	
 	lwipx->ip[1]=168;
-	lwipx->ip[2]=1;
+	lwipx->ip[2]=0;
 	lwipx->ip[3]=55;
 	//默认子网掩码:255.255.255.0
 	lwipx->netmask[0]=255;	
@@ -119,7 +118,7 @@ void lwip_comm_default_ip_set(__lwip_dev *lwipx)
 	//默认网关:192.168.1.1
 	lwipx->gateway[0]=192;	
 	lwipx->gateway[1]=168;
-	lwipx->gateway[2]=1;
+	lwipx->gateway[2]=0;
 	lwipx->gateway[3]=1;	
 	lwipx->dhcpstatus=0;//没有DHCP	
 } 

@@ -3,52 +3,52 @@
 #include "usart.h"
 #include "led.h"
 #include "key.h"
-#include "lcd.h"
-#include "sdram.h"
 #include "lan8720.h"
 #include "timer.h"
-#include "pcf8574.h"
-#include "ov5640.h"
-#include "dcmi.h"
 #include "usmart.h"
 #include "malloc.h"
 #include "lwip/netif.h"
 #include "lwip_comm.h"
 #include "lwipopts.h"
-#include "tcp_server_demo.h"
+#include "openbci.h"
+#include "ads1299.h"
+#include "ad5933.h"
+#include "TCA6424A.h"
+#include "adg731.h"
+#include "myiic.h"
 /************************************************
 
 ************************************************/
 
-//KEY任务
-#define KEY_TASK_PRIO 		8
-//任务堆栈大小
-#define KEY_STK_SIZE		128		
-//任务堆栈
-OS_STK KEY_TASK_STK[KEY_STK_SIZE];
-//任务函数
-void key_task(void *pdata);  
+////KEY任务
+//#define KEY_TASK_PRIO 		8
+////任务堆栈大小
+//#define KEY_STK_SIZE		64		
+////任务堆栈
+//OS_STK KEY_TASK_STK[KEY_STK_SIZE];
+////任务函数
+//void key_task(void *pdata);  
 
-//在LCD上显示地址信息任务
+////在LCD上显示地址信息任务
+////任务优先级
+//#define DISPLAY_TASK_PRIO	9
+////任务堆栈大小
+//#define DISPLAY_STK_SIZE	128
+////任务堆栈
+//OS_STK	DISPLAY_TASK_STK[DISPLAY_STK_SIZE];
+////任务函数
+//void display_task(void *pdata);
+
+
+//ADS1299数据接受任务
 //任务优先级
-#define DISPLAY_TASK_PRIO	9
+#define ADS1299_TASK_PRIO		2
 //任务堆栈大小
-#define DISPLAY_STK_SIZE	128
+#define ADS1299_STK_SIZE		500
 //任务堆栈
-OS_STK	DISPLAY_TASK_STK[DISPLAY_STK_SIZE];
+OS_STK	ADS1299_TASK_STK[ADS1299_STK_SIZE];
 //任务函数
-void display_task(void *pdata);
-
-
-//LED任务
-//任务优先级
-#define LED_TASK_PRIO		10
-//任务堆栈大小
-#define LED_STK_SIZE		64
-//任务堆栈
-OS_STK	LED_TASK_STK[LED_STK_SIZE];
-//任务函数
-void led_task(void *pdata);  
+void ads1299_task(void *pdata);  
 
 
 //START任务
@@ -61,32 +61,9 @@ OS_STK START_TASK_STK[START_STK_SIZE];
 //任务函数
 void start_task(void *pdata); 
 
-void *Sem_Task_LED2;
 
-//在LCD上显示信息
-//mode:1 显示DHCP获取到的地址
-//	  其他 显示静态地址
-void show_inform(u8 mode)
-{
-   
-	u8 buf[30];
-	if(mode==2)
-	{
-		sprintf((char*)buf,"DHCP IP :%d.%d.%d.%d",\
-                lwipdev.ip[0],lwipdev.ip[1],lwipdev.ip[2],lwipdev.ip[3]); //打印动态IP地址
-	}
-	else 
-	{
-		sprintf((char*)buf,"Static IP:%d.%d.%d.%d",\
-                lwipdev.ip[0],lwipdev.ip[1],lwipdev.ip[2],lwipdev.ip[3]); //打印静态IP地址 
-	} 
-    LCD_ShowString(30,110,210,16,16,"KEY_UP:Focus,KEY0:Resol"); 
-    LCD_ShowString(30,130,210,16,16,buf); 
-    LCD_ShowString(30,150,210,16,16,"Port:8088!"); 
-    POINT_COLOR = BLUE; 		        //红色蓝色   
-    LCD_ShowString(30,170,210,16,16,"Resol:1280*800");
 
-}
+
 
 int main(void)
 {   
@@ -96,30 +73,19 @@ int main(void)
     uart_init(115200);              //初始化USART
     usmart_dev.init(90); 		    //初始化USMART	
     LED_Init();                     //初始化LED 
-    KEY_Init();                     //初始化按键
-    SDRAM_Init();                   //初始化SDRAM
-    LCD_Init();                     //初始化LCD
-    PCF8574_Init();                 //初始化PCF8574
-    my_mem_init(SRAMIN);		    //初始化内部内存池
-	my_mem_init(SRAMEX);		    //初始化外部内存池
+   	IIC_Init();
+	Adg731_Init();
+	ADS1299_Init();
+	TCA6424A_Init();   
+	my_mem_init(SRAMIN);		    //初始化内部内存池
 	my_mem_init(SRAMCCM);		    //初始化CCM内存池
-        
-	POINT_COLOR = RED; 		        //红色字体
-	LCD_ShowString(30,30,200,20,16,"Apollo STM32F4/F7");
-	LCD_ShowString(30,50,200,20,16,"NetCamera Test");
-	LCD_ShowString(30,70,200,20,16,"ATOM@ALIENTEK");
-	LCD_ShowString(30,90,200,20,16,"2016/2/24");
-    
 	OSInit(); 					    //UCOS初始化
 	while(lwip_comm_init()) 	    //lwip初始化
 	{
-		LCD_ShowString(30,110,200,20,16,"Lwip Init failed! "); 	//lwip初始化失败
-		delay_ms(500);
-		LCD_Fill(30,110,230,150,WHITE);
+		
 		delay_ms(500);
 	}
     openbci_init();
-	LCD_ShowString(30,110,200,20,16,"Lwip Success!     "); 	//网络摄像头创建成功
 	OSTaskCreate(start_task,(void*)0,(OS_STK*)&START_TASK_STK[START_STK_SIZE-1],START_TASK_PRIO);
 	OSStart(); //开启UCOS
 }
@@ -136,67 +102,67 @@ void start_task(void *pdata)
 	lwip_comm_dhcp_creat(); //创建DHCP任务
 #endif
 	
-	OSTaskCreate(led_task,(void*)0,(OS_STK*)&LED_TASK_STK[LED_STK_SIZE-1],LED_TASK_PRIO);//创建LED任务
-    OSTaskCreate(key_task,(void*)0,(OS_STK*)&KEY_TASK_STK[KEY_STK_SIZE-1],KEY_TASK_PRIO);//按键任务
-	OSTaskCreate(display_task,(void*)0,(OS_STK*)&DISPLAY_TASK_STK[DISPLAY_STK_SIZE-1],DISPLAY_TASK_PRIO); //显示任务
+	OSTaskCreate(ads1299_task,(void*)0,(OS_STK*)&ADS1299_TASK_STK[ADS1299_STK_SIZE-1],ADS1299_TASK_PRIO);//创建ADS1299采集任务
+    //OSTaskCreate(key_task,(void*)0,(OS_STK*)&KEY_TASK_STK[KEY_STK_SIZE-1],KEY_TASK_PRIO);//按键任务
+	//OSTaskCreate(display_task,(void*)0,(OS_STK*)&DISPLAY_TASK_STK[DISPLAY_STK_SIZE-1],DISPLAY_TASK_PRIO); //显示任务
 	OSTaskSuspend(OS_PRIO_SELF); //挂起start_task任务
 	OS_EXIT_CRITICAL();  		//开中断
 }
 
-//显示地址等信息
-void display_task(void *pdata)
-{
-	while(1)
-	{ 
-#if LWIP_DHCP									//当开启DHCP的时候
-		if(lwipdev.dhcpstatus != 0) 			//开启DHCP
-		{
-			show_inform(lwipdev.dhcpstatus );	//显示地址信息
-			OSTaskSuspend(OS_PRIO_SELF); 		//显示完地址信息后挂起自身任务
-		}
-#else
-		show_inform(0); 						//显示静态地址
-		OSTaskSuspend(OS_PRIO_SELF); 		 	//显示完地址信息后挂起自身任务
-#endif //LWIP_DHCP
-		OSTimeDlyHMSM(0,0,0,500);
-	}
-}
+////显示地址等信息
+//void display_task(void *pdata)
+//{
+//	while(1)
+//	{ 
+//#if LWIP_DHCP									//当开启DHCP的时候
+//		if(lwipdev.dhcpstatus != 0) 			//开启DHCP
+//		{
+//			show_inform(lwipdev.dhcpstatus );	//显示地址信息
+//			OSTaskSuspend(OS_PRIO_SELF); 		//显示完地址信息后挂起自身任务
+//		}
+//#else
+//		show_inform(0); 						//显示静态地址
+//		OSTaskSuspend(OS_PRIO_SELF); 		 	//显示完地址信息后挂起自身任务
+//#endif //LWIP_DHCP
+//		OSTimeDlyHMSM(0,0,0,500);
+//	}
+//}
 
-//key任务
-void key_task(void *pdata)
-{
-    u8 resolut=0;
-	u8 key=0; 
-	while(1)
-	{
-        key=KEY_Scan(0);
-        if(key==WKUP_PRES)//对焦
-        {
-           // OV5640_Focus_Single();
-        }
-        if(key==KEY0_PRES)//调整分辨率
-        {
-            resolut++;
-            if(resolut==4) resolut=0;
-           // netcam_resolu_set(resolut);//设置分辨率
-            switch(resolut)            //显示所设置的分辨率
-            {
-                case 0:
-                    LCD_ShowString(78,170,210,16,16,"320*240 ");
-                    break;
-                case 1:
-                    LCD_ShowString(78,170,210,16,16,"640*480 ");
-                    break;
-                case 2:
-                    LCD_ShowString(78,170,210,16,16,"1024*768");
-                    break;
-                case 3:
-                    LCD_ShowString(78,170,210,16,16,"1280*800");
-                    break;
-            }     
-        }
-		OSTimeDlyHMSM(0,0,0,10);  //延时10ms
-	}
-}
+////key任务
+//void key_task(void *pdata)
+//{
+//    u8 resolut=0;
+//	u8 key=0; 
+//	while(1)
+//	{
+//        key=KEY_Scan(0);
+//        if(key==WKUP_PRES)//对焦
+//        {
+//           // OV5640_Focus_Single();
+//        }
+//        if(key==KEY0_PRES)//调整分辨率
+//        {
+//            resolut++;
+//            if(resolut==4) resolut=0;
+//           // netcam_resolu_set(resolut);//设置分辨率
+//            switch(resolut)            //显示所设置的分辨率
+//            {
+//                case 0:
+//                    LCD_ShowString(78,170,210,16,16,"320*240 ");
+//                    break;
+//                case 1:
+//                    LCD_ShowString(78,170,210,16,16,"640*480 ");
+//                    break;
+//                case 2:
+//                    LCD_ShowString(78,170,210,16,16,"1024*768");
+//                    break;
+//                case 3:
+//                    LCD_ShowString(78,170,210,16,16,"1280*800");
+//                    break;
+//            }     
+//        }
+//		OSTimeDlyHMSM(0,0,0,100);  //延时10ms
+//	}
+//}
 
 

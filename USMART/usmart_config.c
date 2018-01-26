@@ -4,7 +4,7 @@
 //这下面要包含所用到的函数所申明的头文件(用户自己添加) 
 #include "delay.h"		
 #include "malloc.h"
-#include "ov5640.h"
+
 
 //函数名列表初始化(用户自己添加)
 //用户直接在这里输入要执行的函数名及其查找串
@@ -16,12 +16,12 @@ struct _m_usmart_nametab usmart_nametab[]=
 #endif		   
  	(void*)mymalloc,"void *mymalloc(u8 memx,u32 size)", 
 	(void*)myfree,"void myfree(u8 memx,void *ptr)",
-    (void*)OV5640_WR_Reg,"u8 OV5640_WR_Reg(u16 reg,u8 data)",
-    (void*)OV5640_RD_Reg,"u8 OV5640_RD_Reg(u16 reg)",
-    (void*)OV5640_Exposure,"void OV5640_Exposure(u8 exposure)",
-    (void*)OV5640_Sharpness,"void OV5640_Sharpness(u8 sharp)",
-    (void*)OV5640_Contrast,"void OV5640_Contrast(u8 contrast)",
-    (void*)OV5640_Brightness,"void OV5640_Brightness(u8 bright)",
+//    (void*)OV5640_WR_Reg,"u8 OV5640_WR_Reg(u16 reg,u8 data)",
+//    (void*)OV5640_RD_Reg,"u8 OV5640_RD_Reg(u16 reg)",
+//    (void*)OV5640_Exposure,"void OV5640_Exposure(u8 exposure)",
+//    (void*)OV5640_Sharpness,"void OV5640_Sharpness(u8 sharp)",
+//    (void*)OV5640_Contrast,"void OV5640_Contrast(u8 contrast)",
+//    (void*)OV5640_Brightness,"void OV5640_Brightness(u8 bright)",
 };						  
 ///////////////////////////////////END///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////

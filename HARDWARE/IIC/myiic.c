@@ -18,14 +18,14 @@ void IIC_Init(void)
 {
     GPIO_InitTypeDef GPIO_Initure;
     
-    __HAL_RCC_GPIOH_CLK_ENABLE();   //使能GPIOH时钟
+    __HAL_RCC_GPIOA_CLK_ENABLE();   //使能GPIOA时钟
     
-    //PH4,5初始化设置
-    GPIO_Initure.Pin=GPIO_PIN_4|GPIO_PIN_5;
+    //PA11,12初始化设置
+    GPIO_Initure.Pin=GPIO_PIN_11|GPIO_PIN_12;
     GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //推挽输出
     GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
     GPIO_Initure.Speed=GPIO_SPEED_FAST;     //快速
-    HAL_GPIO_Init(GPIOH,&GPIO_Initure);
+    HAL_GPIO_Init(GPIOA,&GPIO_Initure);
     
     IIC_SDA=1;
     IIC_SCL=1;  
@@ -60,8 +60,9 @@ u8 IIC_Wait_Ack(void)
 {
 	u8 ucErrTime=0;
 	SDA_IN();      //SDA设置为输入  
-	IIC_SDA=1;delay_us(1);	   
-	IIC_SCL=1;delay_us(1);	 
+	IIC_SDA=1;
+	delay_us(2);	   
+	IIC_SCL=1;delay_us(2);	 
 	while(READ_SDA)
 	{
 		ucErrTime++;
@@ -113,7 +114,7 @@ void IIC_Send_Byte(u8 txd)
 		IIC_SCL=1;
 		delay_us(2); 
 		IIC_SCL=0;	
-		delay_us(2);
+		delay_us(1);
     }	 
 } 	    
 //读1个字节，ack=1时，发送ACK，ack=0，发送nACK   
@@ -128,7 +129,7 @@ u8 IIC_Read_Byte(unsigned char ack)
 		IIC_SCL=1;
         receive<<=1;
         if(READ_SDA)receive++;   
-		delay_us(1); 
+		delay_us(2); 
     }					 
     if (!ack)
         IIC_NAck();//发送nACK

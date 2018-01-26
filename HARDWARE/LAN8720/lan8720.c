@@ -1,9 +1,7 @@
 #include "lan8720.h"
-#include "pcf8574.h"
 #include "lwip_comm.h"
 #include "delay.h"
 #include "malloc.h"
-#include "includes.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK STM32F429开发板
@@ -30,14 +28,31 @@ uint8_t *Tx_Buff; 					//以太网底层驱动发送buffers指针
 u8 LAN8720_Init(void)
 {      
     u8 macaddress[6];
+	 GPIO_InitTypeDef GPIO_Initure;
+    
+   // __HAL_RCC_ETH_CLK_ENABLE();             //开启ETH时钟
+    __HAL_RCC_GPIOA_CLK_ENABLE();			//开启GPIOA时钟
+	
+    /*网络引脚设置 RMII接口 
+    ETH_RESET-------------------------> PA6*/
+    
+    //PA6
+    GPIO_Initure.Pin=GPIO_PIN_6; 
+    GPIO_Initure.Mode=GPIO_MODE_OUTPUT_OD;          //推挽复用
+    GPIO_Initure.Pull=GPIO_NOPULL;              //不带上下拉
+    GPIO_Initure.Speed=GPIO_SPEED_HIGH;         //高速
+   // GPIO_Initure.Alternate=GPIO_AF11_ETH;       //复用为ETH功能
+    HAL_GPIO_Init(GPIOA,&GPIO_Initure);         //初始化
     
     INTX_DISABLE();                         //关闭所有中断，复位过程不能被打断！
-    PCF8574_WriteBit(ETH_RESET_IO,1);       //硬件复位
+    //PCF8574_WriteBit(ETH_RESET_IO,1);       //硬件复位
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_6,0);	//PA6置1 
     delay_ms(100);
-    PCF8574_WriteBit(ETH_RESET_IO,0);       //复位结束
+	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_6,1);	//PA6置1 
+   // PCF8574_WriteBit(ETH_RESET_IO,0);       //复位结束
     delay_ms(100);
     INTX_ENABLE();                          //开启所有中断  
-
+	
     macaddress[0]=lwipdev.mac[0]; 
 	macaddress[1]=lwipdev.mac[1]; 
 	macaddress[2]=lwipdev.mac[2];
@@ -51,7 +66,7 @@ u8 LAN8720_Init(void)
     ETH_Handler.Init.DuplexMode=ETH_MODE_FULLDUPLEX;//全双工模式，如果开启了自协商模式，此配置就无效
     ETH_Handler.Init.PhyAddress=LAN8720_PHY_ADDRESS;//LAN8720地址  
     ETH_Handler.Init.MACAddr=macaddress;            //MAC地址  
-    ETH_Handler.Init.RxMode=ETH_RXINTERRUPT_MODE;   //轮训接收模式 
+    ETH_Handler.Init.RxMode=ETH_RXINTERRUPT_MODE;   //中断接收模式 
     ETH_Handler.Init.ChecksumMode=ETH_CHECKSUM_BY_HARDWARE;//硬件帧校验  
     ETH_Handler.Init.MediaInterface=ETH_MEDIA_INTERFACE_RMII;//RMII接口  
     if(HAL_ETH_Init(&ETH_Handler)==HAL_OK)
@@ -106,7 +121,7 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
     GPIO_Initure.Pin=GPIO_PIN_13|GPIO_PIN_14;   //PG13,14
     HAL_GPIO_Init(GPIOG,&GPIO_Initure);         //初始化
     
-    HAL_NVIC_SetPriority(ETH_IRQn,0,0);         //网络中断优先级应该高一点
+    HAL_NVIC_SetPriority(ETH_IRQn,1,2);         //网络中断优先级应该高一点
     HAL_NVIC_EnableIRQ(ETH_IRQn);
 }
 //读取PHY寄存器值
@@ -139,18 +154,17 @@ u8 LAN8720_Get_Speed(void)
 }
 
 extern void lwip_pkt_handle(void);		//在lwip_comm.c里面定义
+
 //中断服务函数
 void ETH_IRQHandler(void)
 {
-    OSIntEnter(); 
     while(ETH_GetRxPktSize(ETH_Handler.RxDesc))   
     {
         lwip_pkt_handle();//处理以太网数据，即将数据提交给LWIP
     }
     //清除中断标志位
-    __HAL_ETH_DMA_CLEAR_IT(&ETH_Handler,ETH_DMA_IT_R); 
-    __HAL_ETH_DMA_CLEAR_IT(&ETH_Handler,ETH_DMA_IT_NIS); 
-    OSIntExit();  
+    __HAL_ETH_DMA_CLEAR_IT(&ETH_Handler,ETH_DMA_IT_NIS);    //清除DMA中断标志位
+    __HAL_ETH_DMA_CLEAR_IT(&ETH_Handler,ETH_DMA_IT_R);      //清除DMA接收中断标志位
 }
 
 //获取接收到的帧长度

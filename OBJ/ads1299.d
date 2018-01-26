@@ -72,10 +72,6 @@
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h
-..\obj\ads1299.o: ..\HARDWARE\SPI\spi.h
-..\obj\ads1299.o: ..\SYSTEM\delay\delay.h
-..\obj\ads1299.o: ..\MALLOC\malloc.h
-..\obj\ads1299.o: ..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h
 ..\obj\ads1299.o: ..\UCOSII\uCOS-CONFIG\includes.h
 ..\obj\ads1299.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\ads1299.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
@@ -84,4 +80,9 @@
 ..\obj\ads1299.o: ..\UCOSII\uCOS-II\Source\ucos_ii.h
 ..\obj\ads1299.o: ..\UCOSII\uCOS-CONFIG\os_cfg.h
 ..\obj\ads1299.o: ..\UCOSII\uCOS-II\Ports\ARM-Cortex-M4\Generic\RealView\os_cpu.h
+..\obj\ads1299.o: ..\HARDWARE\SPI\spi.h
+..\obj\ads1299.o: ..\SYSTEM\delay\delay.h
+..\obj\ads1299.o: ..\MALLOC\malloc.h
+..\obj\ads1299.o: ..\..\openbci\LWIP\lwip_app\openbci\openbci.h
 ..\obj\ads1299.o: ..\HARDWARE\LED\led.h
+..\obj\ads1299.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

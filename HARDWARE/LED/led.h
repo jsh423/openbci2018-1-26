@@ -14,8 +14,8 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
 
-#define LED0 PBout(1)   //LED0
-#define LED1 PBout(0)   //LED1
+#define LED0 PBout(0)   //LED0
+#define LED1 PBout(1)   //LED1
 
 void LED_Init(void);
 #endif

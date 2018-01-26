@@ -21,43 +21,39 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
 Dialog DLL:      TCM.DLL V1.27.0.0
  
 <h2>Project:</h2>
-C:\Users\jsh\Desktop\Soft\OPENBCI\USER\NetCamera.uvprojx
-Project File Date:  06/14/2017
+C:\Users\jsh\Desktop\openbciv1.2_ucos\USER\openbci_ucos.uvprojx
+Project File Date:  11/14/2017
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'NetCamera'
-compiling ads1299.c...
-..\HARDWARE\ADS1299\ads1299.c(153): warning:  #177-D: variable "inbyte"  was declared but never referenced
-  	u8 i,j,inbyte,n=0;
-..\HARDWARE\ADS1299\ads1299.c(235): warning:  #177-D: variable "buf"  was declared but never referenced
-  	u8 buf[19];
-..\HARDWARE\ADS1299\ads1299.c(236): warning:  #177-D: variable "i"  was declared but never referenced
-  	u8 i;
-..\HARDWARE\ADS1299\ads1299.c(302): warning:  #177-D: variable "status"  was declared but never referenced
-  	  u8 status,Byte;	
-..\HARDWARE\ADS1299\ads1299.c(334): warning:  #177-D: variable "i"  was declared but never referenced
-  	u8 i,j,n=2,k;
-..\HARDWARE\ADS1299\ads1299.c(334): warning:  #177-D: variable "j"  was declared but never referenced
-  	u8 i,j,n=2,k;
-..\HARDWARE\ADS1299\ads1299.c(334): warning:  #177-D: variable "n"  was declared but never referenced
-  	u8 i,j,n=2,k;
-..\HARDWARE\ADS1299\ads1299.c(335): warning:  #177-D: variable "inbyte"  was declared but never referenced
-  	u8 inbyte;
-..\HARDWARE\ADS1299\ads1299.c(336): warning:  #177-D: variable "stat1"  was declared but never referenced
-  	u32 stat1;
-..\HARDWARE\ADS1299\ads1299.c: 9 warnings, 0 errors
+compiling openbci.c...
+..\HARDWARE\ADS1299\ads1299.h(28): warning:  #47-D: incompatible redefinition of macro "LED0"  (declared at line 17 of "..\HARDWARE\LED\led.h")
+  #define LED0 PBout(1)   //LED0
+..\HARDWARE\ADG731\adg731.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+..\LWIP\lwip_app\openbci\openbci.c(91): warning:  #177-D: variable "i"  was declared but never referenced
+  	u16 i;
+..\LWIP\lwip_app\openbci\openbci.c(233): warning:  #223-D: function "AD5933_Start" declared implicitly
+  			AD5933_Start();
+..\LWIP\lwip_app\openbci\openbci.c(234): warning:  #223-D: function "AD5933_RES" declared implicitly
+  			Res=AD5933_RES();
+..\LWIP\lwip_app\openbci\openbci.c(290): warning:  #550-D: variable "remot_addr"  was set but never used
+  	u8 remot_addr[4];
+..\LWIP\lwip_app\openbci\openbci.c(294): warning:  #177-D: variable "res"  was declared but never referenced
+  	u8 res=0;
+..\LWIP\lwip_app\openbci\openbci.c: 7 warnings, 0 errors
 linking...
-Program Size: Code=99658 RO-data=25418 RW-data=836 ZI-data=33691212  
+Program Size: Code=81230 RO-data=1586 RW-data=844 ZI-data=31647156  
 FromELF: creating hex file...
-"..\OBJ\Tempate.axf" - 0 Error(s), 9 Warning(s).
+"..\OBJ\Tempate.axf" - 0 Error(s), 7 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   .\RTE\_NetCamera
   C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:06
+Build Time Elapsed:  00:00:18
 </pre>
 </body>
 </html>

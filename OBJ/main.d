@@ -75,16 +75,8 @@
 ..\obj\main.o: ..\SYSTEM\usart\usart.h
 ..\obj\main.o: ..\HARDWARE\LED\led.h
 ..\obj\main.o: ..\HARDWARE\KEY\key.h
-..\obj\main.o: ..\HARDWARE\LCD\lcd.h
-..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
-..\obj\main.o: ..\HARDWARE\SDRAM\sdram.h
 ..\obj\main.o: ..\HARDWARE\LAN8720\lan8720.h
 ..\obj\main.o: ..\HARDWARE\TIMER\timer.h
-..\obj\main.o: ..\HARDWARE\PCF8574\pcf8574.h
-..\obj\main.o: ..\HARDWARE\IIC\myiic.h
-..\obj\main.o: ..\HARDWARE\OV5640\ov5640.h
-..\obj\main.o: ..\HARDWARE\OV5640\sccb.h
-..\obj\main.o: ..\HARDWARE\DCMI\dcmi.h
 ..\obj\main.o: ..\USMART\usmart.h
 ..\obj\main.o: ..\USMART\usmart_str.h
 ..\obj\main.o: ..\MALLOC\malloc.h
@@ -98,6 +90,7 @@
 ..\obj\main.o: ..\UCOSII\uCOS-CONFIG\includes.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\ctype.h
+..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 ..\obj\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\main.o: ..\UCOSII\uCOS-II\Source\ucos_ii.h
 ..\obj\main.o: ..\UCOSII\uCOS-CONFIG\os_cfg.h
@@ -108,4 +101,9 @@
 ..\obj\main.o: ..\LWIP\lwip-1.4.1\src\include\lwip/def.h
 ..\obj\main.o: ..\LWIP\lwip-1.4.1\src\include\lwip/pbuf.h
 ..\obj\main.o: ..\LWIP\lwip_app\lwip_comm\lwip_comm.h
-..\obj\main.o: ..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h
+..\obj\main.o: ..\..\openbci\LWIP\lwip_app\openbci\openbci.h
+..\obj\main.o: ..\HARDWARE\ADS1299\ads1299.h
+..\obj\main.o: ..\HARDWARE\AD5933\ad5933.h
+..\obj\main.o: ..\HARDWARE\tca6424a\TCA6424A.h
+..\obj\main.o: ..\HARDWARE\ADG731\adg731.h
+..\obj\main.o: ..\HARDWARE\IIC\myiic.h

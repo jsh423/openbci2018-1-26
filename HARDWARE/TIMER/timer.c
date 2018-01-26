@@ -37,7 +37,7 @@ void TIM3_Init(u16 arr,u16 psc)
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
 {
     __HAL_RCC_TIM3_CLK_ENABLE();            //使能TIM3时钟
-    HAL_NVIC_SetPriority(TIM3_IRQn,1,1);    //设置中断优先级，抢占优先级1，子优先级3
+    HAL_NVIC_SetPriority(TIM3_IRQn,2,1);    //设置中断优先级，抢占优先级1，子优先级3
     HAL_NVIC_EnableIRQ(TIM3_IRQn);          //开启ITM3中断   
 }
 
