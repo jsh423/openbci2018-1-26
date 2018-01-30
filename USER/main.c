@@ -22,26 +22,23 @@
 
 ************************************************/
 
-extern u8 tcp_server_flag;	 //TCP Server 测试全局状态标记变量
-u32 value;
-u32 Res;
 
 
 int main(void)
 {   
-    //u8 key;
+    
     Stm32_Clock_Init(360,25,2,8);   //设置时钟,180Mhz   
     HAL_Init();                     //初始化HAL库
     delay_init(180);                //初始化延时函数
 	delay_ms(1000);			//延时1s
     uart_init(115200);              //初始化USART
     usmart_dev.init(90); 		    //初始化USMART	
-   // SDRAM_Init();                   //初始化SDRAM
+
 	IIC_Init();
 	Adg731_Init();
 	ADS1299_Init();
 	TCA6424A_Init();
-	//AD5933_Init();
+	//AD5933_Init();//增加会加大信号噪声
     my_mem_init(SRAMIN);		    //初始化内部内存池
 	my_mem_init(SRAMCCM);		    //初始化CCM内存池
   
@@ -57,21 +54,6 @@ int main(void)
 		lwip_periodic_handle();	//LWIP内核需要定时处理的函数
 	}
 #endif
-//	while(TCA6424A_Init())
-//	{
-//		delay_ms(50);
-//	///while(AD5933_Init())
-//	}
-//	Adg731_Write_Rg(0x00);
-//	while(1)
-//	{
-//		
-//		delay_ms(50);
-//		//value=wendu();
-//		AD5933_Start();
-//		Res=AD5933_RES();
-//		//delay_ms(50);
-//	}
 	
 	delay_ms(1000);			//延时1s
 	while(1)

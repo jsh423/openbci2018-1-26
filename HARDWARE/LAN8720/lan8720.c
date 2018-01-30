@@ -31,7 +31,7 @@ u8 LAN8720_Init(void)
     u8 macaddress[6];
 	 GPIO_InitTypeDef GPIO_Initure;
     
-   // __HAL_RCC_ETH_CLK_ENABLE();             //开启ETH时钟
+    __HAL_RCC_ETH_CLK_ENABLE();             //开启ETH时钟
     __HAL_RCC_GPIOA_CLK_ENABLE();			//开启GPIOA时钟
 	
     /*网络引脚设置 RMII接口 
@@ -100,7 +100,7 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
     ETH_RMII_TX_EN -------------------> PB11
     ETH_RMII_TXD0 --------------------> PG13
     ETH_RMII_TXD1 --------------------> PG14
-    ETH_RESET-------------------------> PCF8574扩展IO*/
+    ETH_RESET-------------------------> PA6*/
     
     //PA1,2,7
     GPIO_Initure.Pin=GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_7; 

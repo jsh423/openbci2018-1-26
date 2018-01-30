@@ -172,7 +172,9 @@ void ADS1299_Init(void)
 	//SPI2_ReadWriteByte(_SDATAC);
 	//delay_us(10);
 	//ADS1299_CS0=1;
-	ADS1299_WREG(0X01,0X94);	//设置多回读模式，通信速率250SPS 1k	 	 
+	ADS1299_WREG(0X01,(0X90|sps));	//设置多回读模式，通信速率250SPS 1k	 
+	//check();	
+	ADS1299_Check();
 //	ADS1299_WREG(0X05,0X00);//第一通道设置短路，测试系统噪声
 //	//ADS1299_WREG(0X02,0XD0);//测试信号由内部产生
 //	//ADS1299_WREG(0x05,0x05);
@@ -195,7 +197,7 @@ void ADS1299_Init(void)
 //	ADS1299_WREG(0X15,0X10);//SRB1闭合
 //	//ADS1299_RDATAC();//连续模式
 //	ADS1299_Command(0x12);//命令读取数据模式
-//	delay_ms(5);
+	delay_ms(5);
 	//ADS1299_IT();
 }
 #if 0
