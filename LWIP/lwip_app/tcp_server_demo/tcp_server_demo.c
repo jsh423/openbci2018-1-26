@@ -209,9 +209,9 @@ void tcp_server_test(void)
 	u8 *tbuf;
  	u8 key;
 	u8 res=0,res1=0;		
-	u8 t=0; 
+	u16 t=0; 
 	
-	
+	LED1=1;
 	//netmem_free();
 	tbuf=mymalloc(SRAMIN,200);	//申请内存
 	netmem_malloc();
@@ -268,14 +268,16 @@ void tcp_server_test(void)
 		}
 		lwip_periodic_handle();
 		//delay_ms(2);
-		t++;
-		if(t==200)
-		{
-			t=0;
-			
-			LED1=!LED1;
-		} 
-	}   
+		LED1=0;
+//		t++;
+//		if(t==20000)
+//		{
+//			t=0;
+//			
+//			LED1=!LED1;
+//		} 
+	} 
+	LED1=1;	
 	tcp_server_connection_close(tcppcbnew,0);//关闭TCP Server连接
 	tcp_server_connection_close(tcppcbconn,0);//关闭TCP Server连接 
 	tcp_server_remove_timewait(); 
@@ -326,6 +328,7 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err
 	es=(struct tcp_server_struct *)arg;
 	if(p==NULL) //从客户端接收到空数据
 	{
+		LED1=1;
 		es->state=ES_TCPSERVER_CLOSING;//需要关闭TCP 连接了
 		es->p=p; 
 		ret_err=ERR_OK;
@@ -333,6 +336,7 @@ err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err
 	{
 		if(p)pbuf_free(p);	//释放接收pbuf
 		ret_err=err;
+		LED1=1;
 	}else if(es->state==ES_TCPSERVER_ACCEPTED) 	//处于连接状态
 	{
 		if(p!=NULL)  //当处于连接状态并且接收到的数据不为空时将其打印出来
@@ -395,8 +399,10 @@ err_t tcp_server_usersent(struct tcp_pcb *tpcb)
 		ret_err=ERR_OK;
 	}else
 	{ 
+		LED1=1;
 		tcp_abort(tpcb);//终止连接,删除pcb控制块
 		ret_err=ERR_ABRT;
+		LED1=1;
 	}
 	return ret_err;
 }
@@ -411,6 +417,7 @@ err_t tcp_server_poll(void *arg, struct tcp_pcb *tpcb)
     {
         tcp_server_connection_close(tpcb,es);//关闭连接
 		//tcp_server_flag&=~(1<<5);//标记连接断开了
+		LED1=1;
     }
     ret_err=ERR_OK;
 	return ret_err;
@@ -492,8 +499,22 @@ void Data_Process(void)
 		{
 		case 0x1:  //数据采集启动
 			res=tcp_server_recvbuf[2];
-			if(res==1) ADS1299_START=1;//ADS1299芯片启动
-		else if(res==0) ADS1299_START=0;
+			if(res==1) 
+			{
+//				ADS1299_RST1=0;
+//				ADS1299_RST0=0;
+//				ADS1299_RST2=0;
+//				ADS1299_RST3=0;
+//				delay_ms(5);
+//				ADS1299_RST0=1;
+//				ADS1299_RST1=1;
+//				ADS1299_RST2=1;
+//				ADS1299_RST3=1;
+//				delay_ms(5);
+				ADS1299_START=1;//ADS1299芯片启动
+			}
+		else if(res==0)
+			ADS1299_START=0;
 		break;
 		case 0x11: //采样率设置
 			//u8 buf[5];

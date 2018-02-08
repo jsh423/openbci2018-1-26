@@ -33,7 +33,7 @@ int main(void)
 	delay_ms(1000);			//延时1s
     uart_init(115200);              //初始化USART
     usmart_dev.init(90); 		    //初始化USMART	
-
+	LED_Init();
 	IIC_Init();
 	Adg731_Init();
 	ADS1299_Init();
