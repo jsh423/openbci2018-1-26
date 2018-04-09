@@ -180,13 +180,13 @@ void hardware_init(void)
 	
 	
 	
-	//while(1) 									//初始化tcp_server(创建tcp_server程)
+	while(1) 									//初始化tcp_server(创建tcp_server程)
 	{
 		//LCD_ShowString(30,110,200,20,16,"ADS1299 Check failed! "); 
 		//delay_ms(500);
 		//LCD_Fill(30,110,230,170,WHITE);
 		if(ADS1299_Check()) delay_ms(100);
-		//else break;
+		else break;
 		
 	}
 	//LCD_ShowString(30,150,200,20,16,"ads1299 check Success!  "); 	//tcp服务器创建成功
@@ -229,10 +229,11 @@ void tcp_server_test(void)
 		}else res=1;  
 	}else res=1;
 	delay_ms(100);
-	hardware_init();
+	//hardware_init();
 	if((tcp_server_flag&1<<5)&&(res==0))
 	{
 		res1=1;
+		hardware_init();
 	}
 	while(res1==1)//如果已经连上
 	{
@@ -264,6 +265,7 @@ void tcp_server_test(void)
 		if((tcp_server_flag&1<<5)==0)
 		{
 			res1=0;
+			break;
 			//LCD_Fill(30,170,lcddev.width-1,lcddev.height-1,WHITE);//清屏
 		}
 		lwip_periodic_handle();
@@ -492,8 +494,10 @@ void Data_Process(void)
 		{
 		case 0x1:  //数据采集启动
 			res=tcp_server_recvbuf[2];
-			if(res==1) ADS1299_START=1;//ADS1299芯片启动
-		else if(res==0) ADS1299_START=0;
+			if(res==1) ADS1299_Command(_START);
+				//ADS1299_START=1;//ADS1299芯片启动
+		else if(res==0) ADS1299_Command(_STOP);
+			//ADS1299_START=0;
 		break;
 		case 0x11: //采样率设置
 			//u8 buf[5];
@@ -530,6 +534,7 @@ void Data_Process(void)
 			len=parameter[1]+2;
 		break;
 		case 0x31://单个通道阻抗测试
+			ADS1299_Command(_STOP);
 			ADS1299_START=0;
 			Adg731_Write_Rg(0x00);
 			TCA6424A_W(TCA6424A_ADDRESS1,TCA6424A_OUTPUT_REG0,0X800001);
@@ -550,6 +555,7 @@ void Data_Process(void)
 		
 		break;
 		case 0x32://N个通道阻抗同时测试
+			ADS1299_Command(_STOP);
 			ADS1299_START=0;
 			Adg731_Write_Rg(0x00);
 			TCA6424A_W(TCA6424A_ADDRESS1,TCA6424A_OUTPUT_REG0,0X800001);

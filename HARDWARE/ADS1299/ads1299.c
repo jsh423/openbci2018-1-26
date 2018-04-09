@@ -261,9 +261,8 @@ void ADS1299_IT(void)
 	 //中断线13-PC13
     HAL_NVIC_SetPriority(EXTI4_IRQn,1,1);   //抢占优先级为2，子优先级为1
     HAL_NVIC_EnableIRQ(EXTI4_IRQn);         //使能中断线13 
-	if(openvibeflag) ADS1299_START=1;
-	else ADS1299_START=0;
-	//ADS1299_Command(0x08);
+	if(openvibeflag) ADS1299_Command(_START);
+	else ADS1299_Command(_STOP);
 	delay_ms(10);
 	//ADS1299_RDATAC();
 //	 //中断线12-PC12
@@ -299,7 +298,7 @@ u8 ADS1299_Check(void)
 	check=ADS1299_PREG(0X00);
 	//check=ADS1299_PREGS();
 	//delay_ms(10);
-//	if(check==0x3e) 
+	//if(check==0x3e) 
 	{
 		
 	//check=ADS1299_PREG(0X00);
@@ -307,26 +306,26 @@ u8 ADS1299_Check(void)
 	
 	
 	
-	ADS1299_WREG(0X05,0X05);//第一通道设置短路，测试系统噪声
-	//ADS1299_WREG(0X02,0XD0);//测试信号由内部产生
+	ADS1299_WREG(0X05,0X00);//第一通道设置短路，测试系统噪声
+	ADS1299_WREG(0X02,0XD1);//测试信号由内部产生
 	//ADS1299_WREG(0x05,0x05);
 	//ADS1299_WREG(0X02,0XD
 //	ADS1299_WREG(0X05,0X0A);//第一通道设置为测试信号输入 此处测试BIASREF
-//	ADS1299_WREG(0X03,0XF0);//开启内部基准
+	ADS1299_WREG(0X03,0XFc);//开启内部基准
 	
 	
 	//ADS1299_START=1;
-	ADS1299_WREG(0X06,0x05);
+	ADS1299_WREG(0X06,0x00);
 	ADS1299_WREG(0X07,0x05);
-	ADS1299_WREG(0X08,0X00);//第一通道设置普通输入
-	ADS1299_WREG(0X09,0x00);
-	ADS1299_WREG(0X0A,0x00);
+	ADS1299_WREG(0X08,0X01);//第一通道设置普通输入
+	ADS1299_WREG(0X09,0x01);
+	ADS1299_WREG(0X0A,0x01);
 	ADS1299_WREG(0X0B,0x00);
 	ADS1299_WREG(0X0C,0x00);
-	//ADS1299_WREG(0X0D,0Xff);
-	//ADS1299_WREG(0X0E,0XFF);
+	ADS1299_WREG(0X0D,0Xff);//开启直流偏置
+	ADS1299_WREG(0X0E,0XFF);
 	//ADS1299_WREG(0X03,0xE0);//关闭阻抗测试
-	ADS1299_WREG(0X15,0X10);//SRB1闭合
+	ADS1299_WREG(0X15,0X20);//SRB1闭合
 	//ADS1299_RDATAC();//连续模式
 	ADS1299_Command(0x12);//命令读取数据模式
 	SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_8); //spi速度为11.25Mhz（24L01的最大SPI时钟为10Mhz,这里大一点没关系） 
@@ -743,7 +742,7 @@ void Recev_Data(void)
 	
 	adc_buf2[3]=res3;
 	}
-	//tcp_server_sendbuf=buf3;
+	//tcp_server_sendbuf=buf3;'
 	for(k=0;k<4;k++)
 	{
 		ADS1299_CHANGE_CHANEL(k,0);
