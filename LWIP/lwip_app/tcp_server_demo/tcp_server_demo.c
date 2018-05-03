@@ -185,7 +185,7 @@ void hardware_init(void)
 		//LCD_ShowString(30,110,200,20,16,"ADS1299 Check failed! "); 
 		//delay_ms(500);
 		//LCD_Fill(30,110,230,170,WHITE);
-		if(ADS1299_Check()) delay_ms(100);
+		if(ADS1299_Check()) delay_ms(1);
 		else break;
 		
 	}
@@ -233,7 +233,7 @@ void tcp_server_test(void)
 	if((tcp_server_flag&1<<5)&&(res==0))
 	{
 		res1=1;
-		hardware_init();
+		//hardware_init();
 	}
 	while(res1==1)//如果已经连上
 	{

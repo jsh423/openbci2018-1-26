@@ -10,22 +10,22 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-#define	ADS1299_CS0 		PBout(3)  		//ADS1299的片选信号
-#define ADS1299_CS1			PBout(4)
-#define ADS1299_CS2			PBout(5)
-#define ADS1299_CS3			PBout(6)
-#define ADS1299_RST2		PAout(15)
-#define ADS1299_RST3		PBout(10)
+#define	ADS1299_CS0 		PGout(2)  		//ADS1299的片选信号
+#define ADS1299_CS1			PGout(3)
+#define ADS1299_CS2			PGout(4)
+#define ADS1299_CS3			PGout(5)
+//#define ADS1299_RST2		PAout(15)
+//#define ADS1299_RST3		PBout(10)
 
-#define ADS1299_RST1			PBout(12)
-#define ADS1299_PWDN1			PBout(1)
-#define ADS1299_PWDN2			PBout(9)
-#define ADS1299_PWDN3			PBout(8)
+//#define ADS1299_RST1			PBout(12)
+//#define ADS1299_PWDN1			PBout(1)
+//#define ADS1299_PWDN2			PBout(9)
+//#define ADS1299_PWDN3			PBout(8)
 
-#define ADS1299_RST0		PBout(7)
-#define ADS1299_START   PCout(7)
-#define ADS1299_PWDN0	PCout(6)
-#define LED0 PBout(1)   //LED0
+//#define ADS1299_RST0		PBout(7)
+#define ADS1299_START   PDout(12)
+//#define ADS1299_PWDN0	PCout(6)
+//#define LED0 PBout(1)   //LED0
 #define ADS1299_ID 0X3E		
 
 #define openvibeflag 0  //如果采用openvibe协议置一，否则为零
@@ -89,38 +89,69 @@ extern u8 sps;
 
 #define MWSPT_NSEC 3
 
+#define OPENBCI_NCHAN (8)  // number of EEG channels
+// CHANNEL SETTINGS 
+#define POWER_DOWN      (0)
+#define GAIN_SET        (1)
+#define INPUT_TYPE_SET  (2)
+#define BIAS_SET        (3)
+#define SRB2_SET        (4)
+#define SRB1_SET        (5)
+#define YES      	(0x01)
+#define NO      	(0x00)
+
+//gainCode choices
+#define ADS_GAIN01 (0b00000000)	// 0x00
+#define ADS_GAIN02 (0b00010000)	// 0x10
+#define ADS_GAIN04 (0b00100000)	// 0x20
+#define ADS_GAIN06 (0b00110000)	// 0x30
+#define ADS_GAIN08 (0b01000000)	// 0x40
+#define ADS_GAIN12 (0b01010000)	// 0x50
+#define ADS_GAIN24 (0b01100000)	// 0x60
+
+//inputType choices
+#define ADSINPUT_NORMAL (0b00000000)
+#define ADSINPUT_SHORTED (0b00000001)
+#define ADSINPUT_BIAS_MEAS (0b00000010)
+#define ADSINPUT_MVDD (0b00000011)
+#define ADSINPUT_TEMP (0b00000100)
+#define ADSINPUT_TESTSIG (0b00000101)
+#define ADSINPUT_BIAS_DRP (0b00000110)
+#define ADSINPUT_BIAS_DRN (0b00000111)
+
+//test signal choices...ADS1299 datasheet page 41
+#define ADSTESTSIG_AMP_1X (0b00000000)
+#define ADSTESTSIG_AMP_2X (0b00000100)
+#define ADSTESTSIG_PULSE_SLOW (0b00000000)
+#define ADSTESTSIG_PULSE_FAST (0b00000001)
+#define ADSTESTSIG_DCSIG (0b00000011)
+#define ADSTESTSIG_NOCHANGE (0b11111111)
+
+//Lead-off signal choices
+#define LOFF_MAG_6NA (0b00000000)
+#define LOFF_MAG_24NA (0b00000100)
+#define LOFF_MAG_6UA (0b00001000)
+#define LOFF_MAG_24UA (0b00001100)
+#define LOFF_FREQ_DC (0b00000000)
+#define LOFF_FREQ_7p8HZ (0b00000001)
+#define LOFF_FREQ_31p2HZ (0b00000010)
+#define LOFF_FREQ_FS_4 (0b00000011)
+#define PCHAN (0)
+#define NCHAN (1)
+#define OFF (0)
+#define ON (1)
+
+// used for channel settings
+#define ACTIVATE_SHORTED (2)
+#define ACTIVATE (1)
+#define DEACTIVATE (0)
+
+#define PCKT_START 0xA0	// prefix for data packet error checking
+#define PCKT_END 0xC0	// postfix for data packet error checking
 
 
 
 
-#if 0
-//0.03hz~250hz 1024samp
-const int NL[MWSPT_NSEC] = { 1,3,1 };
-const float NUM[MWSPT_NSEC][3] = {
-  {
-     0.3308998942,              0,              0 
-  },
-  {
-                1,              0,             -1 
-  },
-  {
-                1,              0,              0 
-  }
-};
-const int DL[MWSPT_NSEC] = { 1,3,1 };
-const float DEN[MWSPT_NSEC][3] = {
- {
-                1,              0,              0 
-  },
-  {
-                1,   -1.336979747,   0.3382001817 
-  },
-  {
-                1,              0,              0 
-  }
-};
-
-#endif
 
 
 
@@ -134,48 +165,6 @@ const float DEN[MWSPT_NSEC][3] = {
 
 
 
-
-
-
-
-
-
-
-
-
-#if 0
-
-//1024 samprate 0.5~250HZ
-#define MWSPT_NSEC 3
-const int NL[MWSPT_NSEC] = { 1,3,1 };
-const float NUM[MWSPT_NSEC][3] = {
-  {
-     0.2399980277,              0,              0 
-  },
-  {
-                1,              0,             -1 
-  },
-  {
-                1,              0,              0 
-  }
-};
-const int DL[MWSPT_NSEC] = { 1,3,1 };
-const float DEN[MWSPT_NSEC][3] = {
-  {
-                1,              0,              0 
-  },
-  {
-                1,   -1.519117832,   0.5200039148 
-  },
-  {
-                1,              0,              0 
-  }
-};
-
-
-
-
-#endif
 
 
 
@@ -188,6 +177,3 @@ const float DEN[MWSPT_NSEC][3] = {
 
 
 #endif
-
-
-//#endif

@@ -38,7 +38,7 @@ struct tcp_server_struct
 	struct tcp_pcb *pcb;    //指向当前的pcb
 	struct pbuf *p;         //指向接收/或传输的pbuf
 }; 
-
+void hardware_init();
 void tcp_server_test(void);//TCP Server测试函数
 err_t tcp_server_accept(void *arg,struct tcp_pcb *newpcb,err_t err);
 err_t tcp_server_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t err);

@@ -109,3 +109,4 @@
 ..\obj\main.o: ..\HARDWARE\tca6424a\TCA6424A.h
 ..\obj\main.o: ..\HARDWARE\ADG731\adg731.h
 ..\obj\main.o: ..\HARDWARE\IIC\myiic.h
+..\obj\main.o: iwdg.h

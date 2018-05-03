@@ -177,7 +177,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
     //SPI2引脚初始化PB13,14,15
     GPIO_Initure.Pin=GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;   
 	 GPIO_Initure.Mode=GPIO_MODE_AF_PP;              //复用推挽输出
-    GPIO_Initure.Pull=GPIO_PULLDOWN;                  //上拉
+    GPIO_Initure.Pull=GPIO_PULLUP;                  //上拉
     GPIO_Initure.Speed=GPIO_SPEED_FAST;             //快速    
     GPIO_Initure.Alternate=GPIO_AF5_SPI2;           //复用为SPI2
     HAL_GPIO_Init(GPIOB,&GPIO_Initure);             //初始化

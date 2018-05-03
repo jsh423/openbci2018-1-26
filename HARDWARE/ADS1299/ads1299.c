@@ -17,16 +17,17 @@
 u8 check=0;
 u8 TxData0[28]={0x12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //发送地址
 //u8 TxData1[24]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-u8 RxData[4]; //发送地址
+//u8 RxData[4][4]; //接受地址
 u8 sps=0x05;
 u8 parameter[10];
 u8 Flag_adc;
-u32 stat;
+//u32 stat;
 u8 index1=0;
 u8 res3;
 u8 adc_buf2[101];
+u8 stat[16];
  //adc_buf2[0]=0xaa;
-int32_t Adcres[32];
+//int32_t Adcres[32];
 //float32_t input[20];
 //float32_t output[20];
 //float32_t res[20+28];
@@ -65,6 +66,51 @@ void ADS1299_Command(u8 Command)
 	ADS1299_CHANGE_CHANEL(i,1);
 	}
 }
+
+//读取寄存器数据
+u8 ADS1299_PREG(u8 reg)
+{
+	  u8 Byte;	
+   	ADS1299_CS1=0;                 //使能SPI传输
+//delay_us(200);
+  	SPI2_ReadWriteByte(0X00|0X20);//发送寄存器号
+	
+  	SPI2_ReadWriteByte(0X00);      //写入寄存器的值
+	Byte=SPI2_ReadWriteByte(0);
+//	status=SPI2_ReadWriteByte(0);
+	//delay_us(2);
+  	ADS1299_CS1=1;                 //禁止SPI传输	   
+  	return(Byte);       		    //返回状态值
+}
+//写入ADS1299寄存器数据
+void ADS1299_WREG(u8 address,u8 value)
+{
+	u8 i;
+	for(i=0;i<4;i++)
+	{
+	ADS1299_CHANGE_CHANEL(i,0);
+	//delay_us(3);
+	SPI2_ReadWriteByte(0X40|address);
+	SPI2_ReadWriteByte(00);
+	SPI2_ReadWriteByte(value);
+	//delay_us(2);
+	ADS1299_CHANGE_CHANEL(i,1);
+	}
+}
+void ADS1299_WREG_Single(u8 n,u8 address,u8 value)
+{
+	u8 i;
+	
+	ADS1299_CHANGE_CHANEL(n,0);
+	//delay_us(3);
+	SPI2_ReadWriteByte(0X40|address);
+	SPI2_ReadWriteByte(00);
+	SPI2_ReadWriteByte(value);
+	//delay_us(2);
+	ADS1299_CHANGE_CHANEL(n,1);
+	
+}
+	
 #if 1
 void ADS1299_CHANGE_CHANEL(u8 n,u8 sw)
 {
@@ -91,36 +137,24 @@ void ADS1299_CHANGE_CHANEL(u8 n,u8 sw)
 void ADS1299_Init(void)
 {
 	GPIO_InitTypeDef GPIO_Initure;
-	__HAL_RCC_GPIOA_CLK_ENABLE();			//开启GPIOG时钟
-	__HAL_RCC_GPIOB_CLK_ENABLE();			//开启GPIOG时钟
-	__HAL_RCC_GPIOC_CLK_ENABLE();			//开启GPIOI时钟
+	
+	__HAL_RCC_GPIOG_CLK_ENABLE();			//开启GPIOG时钟
 	__HAL_RCC_GPIOD_CLK_ENABLE();			//开启GPIOI时钟
 
-	GPIO_Initure.Pin=GPIO_PIN_1|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9|GPIO_PIN_10|GPIO_PIN_12; //PG10,12
+	GPIO_Initure.Pin=GPIO_PIN_2|GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5; //PG2，3，4，5ADS1299片选信号
 	GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //推挽输出
 	GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
 	GPIO_Initure.Speed=GPIO_SPEED_HIGH;     //高速
-	HAL_GPIO_Init(GPIOB,&GPIO_Initure);     //初始化
+	HAL_GPIO_Init(GPIOG,&GPIO_Initure);     //初始化
 
-	GPIO_Initure.Pin=GPIO_PIN_15; //PG10,12
+	GPIO_Initure.Pin=GPIO_PIN_12; //PD12 ADS1299开始信号
 	GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //推挽输出
 	GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
 	GPIO_Initure.Speed=GPIO_SPEED_HIGH;     //高速
-	HAL_GPIO_Init(GPIOA,&GPIO_Initure);     //初始化
+	HAL_GPIO_Init(GPIOD,&GPIO_Initure);     //初始化
 	//     
-	//    GPIO_Initure.Pin=GPIO_PIN_11;           //PI11
-	//    GPIO_Initure.Mode=GPIO_MODE_INPUT;      //输入
-	//    HAL_GPIO_Init(GPIOI,&GPIO_Initure);     //初始化
-
-	GPIO_Initure.Pin=GPIO_PIN_6|GPIO_PIN_7;            //PC6
-	GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //推挽输出
-	GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
-	GPIO_Initure.Speed=GPIO_SPEED_FAST;     //快速         
-	HAL_GPIO_Init(GPIOC,&GPIO_Initure);     //初始化
 
 	SPI2_Init();    		                //初始化SPI2  /
-	//SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_16); //spi速度为2.8Mhz（24L01的最大SPI时钟为10Mhz,这里大一点没关系）  
-	// NRF24L01_SPI_Init();                    //针对NRF的特点修改SPI的设置
 	delay_ms(50);
 
 	SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_16); //spi速度为11.25Mhz（24L01的最大SPI时钟为10Mhz,这里大一点没关系） 
@@ -129,28 +163,10 @@ void ADS1299_Init(void)
 	ADS1299_CS1=1;
 	ADS1299_CS2=1;
 	ADS1299_CS3=1;
-	ADS1299_RST0=1;
-	ADS1299_RST2=1;
-	ADS1299_RST3=1;
-	ADS1299_PWDN1=1;
-	ADS1299_PWDN0=1;
-	ADS1299_PWDN2=1;
-	ADS1299_PWDN3=1;
-	ADS1299_RST1=1;
-	delay_ms(5);
-	ADS1299_RST1=0;
-	ADS1299_RST0=0;
-	ADS1299_RST2=0;
-	ADS1299_RST3=0;
-	delay_ms(5);
-	ADS1299_RST0=1;
-	ADS1299_RST1=1;
-	ADS1299_RST2=1;
-	ADS1299_RST3=1;
+	ADS1299_Command(_WAKEUP);
+	ADS1299_Command(_RESET);
+	
 	delay_ms(5); 
-	//delay_ms(2);
-	//ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
-	//ADS1299_WREG(0X03,0xe0);//开启内部基准
 	parameter[0]=0xa0;//帧头
 	parameter[1]=8;//帧长
 	parameter[9]=0xc0;//帧尾
@@ -163,185 +179,95 @@ void ADS1299_Init(void)
 	parameter[8]=0;
 	
 	delay_ms(20);
-	 	ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
-	ADS1299_WREG(0X03,0xe0);//开启内部基准
+	ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
+	ADS1299_WREG(CONFIG3,0xe0);//开启内部基准
 	
 	delay_ms(10);
-	//ADS1299_RDATAC();
-	//SPI2_ReadWriteByte(0x0);
-	//SPI2_ReadWriteByte(_SDATAC);
-	//delay_us(10);
-	//ADS1299_CS0=1;
-	ADS1299_WREG(0X01,(0X90|sps));	//设置多回读模式，通信速率250SPS 1k	 
-	//check();	
-	ADS1299_Check();
-//	ADS1299_WREG(0X05,0X00);//第一通道设置短路，测试系统噪声
-//	//ADS1299_WREG(0X02,0XD0);//测试信号由内部产生
-//	//ADS1299_WREG(0x05,0x05);
-//	//ADS1299_WREG(0X02,0XD
-////	ADS1299_WREG(0X05,0X0A);//第一通道设置为测试信号输入 此处测试BIASREF
-////	ADS1299_WREG(0X03,0XF0);//开启内部基准
-//	
-//	
-//	//ADS1299_START=1;
-//	ADS1299_WREG(0X06,0x05);
-//	ADS1299_WREG(0X07,0x00);
-//	ADS1299_WREG(0X08,0X00);//第一通道设置普通输入
-//	ADS1299_WREG(0X09,0x00);
-//	ADS1299_WREG(0X0A,0x00);
-//	ADS1299_WREG(0X0B,0x00);
-//	ADS1299_WREG(0X0C,0x00);
-//	//ADS1299_WREG(0X0D,0Xff);
-//	//ADS1299_WREG(0X0E,0XFF);
-//	//ADS1299_WREG(0X03,0xE0);//关闭阻抗测试
-//	ADS1299_WREG(0X15,0X10);//SRB1闭合
-//	//ADS1299_RDATAC();//连续模式
-//	ADS1299_Command(0x12);//命令读取数据模式
+	ADS1299_WREG(CONFIG1,(0XD0|sps));	//设置多回读模式，通信速率250SPS 1k	 
+	
 	delay_ms(5);
-	//ADS1299_IT();
 }
-#if 0
-u32 buf1[3];
-void ADS1299_RDATA(u8 *p)
-{
-	u8 i,j,inbyte,n=0;
-	//u32 Adc_buf[8];
-	//u32 stat;
-	//stat=0;
-	ADS1299_CS0=0;
-	
-	SPI2_ReadWriteByte(0x12);
-	//delay_us(2);
-	for(i=0;i<1;i++)
-	{
-	//inbyte=SPI2_ReadWriteByte(0x00);
-	//stat=(stat<<8)| inbyte;	
-	buf1[i++]=SPI2_ReadWriteByte(0X00);
-		//Adcres[0]=buf1[i
-	//
-	}
-	
-	////Adcres[0]=(buf1[0]<<16)+(buf1[1]<<8)+buf1[2];
-	for(i=0;i<8;i++)
-	{
-		for(j=0;j<3;j++)
-		{
-			p[n++]=SPI2_ReadWriteByte(0x00);
-			//inbyte=SPI2_ReadWriteByte(0x00);
-				//Adc_buf[i]=(Adc_buf[i]<<8)| inbyte;
-			
-		}
-		//Adcres[i+1]=(p[n-2]<<16)+(p[n-1]<<8)+p[n];
-		//Adcres[i]=(buf1[0]<<16)+(buf1[1]<<8)+buf1[2];
-	}
-	n=0;
-	ADS1299_CS0=1;
-}			
-#endif			
+		
 	
 void ADS1299_IT(void)
 {
 		  GPIO_InitTypeDef GPIO_Initure;
-   // __HAL_RCC_GPIOG_CLK_ENABLE();			//开启GPIOG时钟
-    __HAL_RCC_GPIOC_CLK_ENABLE();			//开启GPIOI时钟
+    __HAL_RCC_GPIOB_CLK_ENABLE();			//开启GPIOI时钟
 	
-//	GPIO_Initure.Pin=GPIO_PIN_12;               //PC12
-//	//GPIO_Initure.Mode=GPIO_MODE_IT_RISING;      //上升沿触发
-//   // GPIO_Initure.Pull=GPIO_PULLDOWN;
-//    GPIO_Initure.Mode=GPIO_MODE_IT_FALLING;     //下降沿触发
-//    GPIO_Initure.Pull=GPIO_PULLUP;
-//    HAL_GPIO_Init(GPIOC,&GPIO_Initure);		//暂时定义PH13为数据
 	
-	GPIO_Initure.Pin=GPIO_PIN_4;               //PC13
+	GPIO_Initure.Pin=GPIO_PIN_12;               //PB12
     GPIO_Initure.Mode=GPIO_MODE_IT_FALLING;
 	//GPIO_MODE_IT_FALLING;     //下降沿触发
     GPIO_Initure.Pull=GPIO_PULLUP;
-    HAL_GPIO_Init(GPIOA,&GPIO_Initure);
+    HAL_GPIO_Init(GPIOB,&GPIO_Initure);
 	
-	 //中断线13-PC13
-    HAL_NVIC_SetPriority(EXTI4_IRQn,1,1);   //抢占优先级为2，子优先级为1
-    HAL_NVIC_EnableIRQ(EXTI4_IRQn);         //使能中断线13 
+	 //中断线13-PB12
+    HAL_NVIC_SetPriority(EXTI15_10_IRQn,1,1);   //抢占优先级为2，子优先级为1
+    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);         //使能中断线13 
 	if(openvibeflag) ADS1299_Command(_START);
 	else ADS1299_Command(_STOP);
 	delay_ms(10);
-	//ADS1299_RDATAC();
-//	 //中断线12-PC12
-//    HAL_NVIC_SetPriority(EXTI15_10_IRQn,2,1);   //抢占优先级为2，子优先级为3
-//    HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);         //使能中断线12
 }
 u8 p[18];
 u8 ADS1299_PREGS(void)
 {
 	u8 i;
-	ADS1299_CS1=0;
+	ADS1299_CS0=0;
 	SPI2_ReadWriteByte(0x00|0x20);
 	SPI2_ReadWriteByte(0x12);
 	for(i=0;i<3;i++)
-{
-	p[i]=SPI2_ReadWriteByte(0X00);
-}
-	ADS1299_CS1=1;
+	{
+		p[i]=SPI2_ReadWriteByte(0X00);
+	}
+	ADS1299_CS0=1;
 return p[0];
 }
 //检测ADS1299是否存在
 //返回值:0，成功;1，失败	
 u8 ADS1299_Check(void)
 {
-	//u8 buf[19];
-//	u8 i;
 	
-	//ADS1299_START=1;
-	//delay_ms(1000);
-	
-	
-	//ADS1299_WREG(0X02,0Xc0);//设置测试信号由内部产生
-	check=ADS1299_PREG(0X00);
-	//check=ADS1299_PREGS();
-	//delay_ms(10);
+	check=ADS1299_PREG(ID);
+
 	//if(check==0x3e) 
 	{
+
+		ADS1299_WREG(CH1SET,0X60);//第一通道设置短路，测试系统噪声
+		ADS1299_WREG(CONFIG2,0XD1);//测试信号由内部产生
+		//ADS1299_WREG(CONFIG3,0XFE);//开启内部基准
+		ADS1299_WREG_Single(0,CONFIG3,0XFE);
 		
-	//check=ADS1299_PREG(0X00);
-	//ADS1299_Command(0x08);
-	
-	
-	
-	ADS1299_WREG(0X05,0X00);//第一通道设置短路，测试系统噪声
-	ADS1299_WREG(0X02,0XD1);//测试信号由内部产生
-	//ADS1299_WREG(0x05,0x05);
-	//ADS1299_WREG(0X02,0XD
-//	ADS1299_WREG(0X05,0X0A);//第一通道设置为测试信号输入 此处测试BIASREF
-	ADS1299_WREG(0X03,0XFc);//开启内部基准
-	
-	
-	//ADS1299_START=1;
-	ADS1299_WREG(0X06,0x00);
-	ADS1299_WREG(0X07,0x05);
-	ADS1299_WREG(0X08,0X01);//第一通道设置普通输入
-	ADS1299_WREG(0X09,0x01);
-	ADS1299_WREG(0X0A,0x01);
-	ADS1299_WREG(0X0B,0x00);
-	ADS1299_WREG(0X0C,0x00);
-	ADS1299_WREG(0X0D,0Xff);//开启直流偏置
-	ADS1299_WREG(0X0E,0XFF);
-	//ADS1299_WREG(0X03,0xE0);//关闭阻抗测试
-	ADS1299_WREG(0X15,0X20);//SRB1闭合
-	//ADS1299_RDATAC();//连续模式
-	ADS1299_Command(0x12);//命令读取数据模式
-	SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_8); //spi速度为11.25Mhz（24L01的最大SPI时钟为10Mhz,这里大一点没关系） 
-		delay_ms(1);
-	//ADS1299_CS0=0;
-	return 0;
+		ADS1299_WREG(LOFF,0x00);//DC-Lead-off检查
+		//ADS1299_START=1;
+		ADS1299_WREG(CH2SET,0x60);
+		ADS1299_WREG(CH3SET,0x60);
+		ADS1299_WREG(CH4SET,0X60);//第一通道设置普通输入
+		ADS1299_WREG(CH5SET,0x60);
+		ADS1299_WREG(CH6SET,0x60);
+		ADS1299_WREG(CH7SET,0x60);
+		ADS1299_WREG(CH8SET,0x60);
+		ADS1299_WREG(BIAS_SENSP,0Xff);//开启直流偏置
+		ADS1299_WREG(BIAS_SENSN,0XFF);
+		
+		ADS1299_WREG(LOFF_SENSP,0xff);//关闭阻抗测试
+		ADS1299_WREG(LOFF_SENSP,0xff);
+		ADS1299_WREG_Single(0,MISC1,0X20);
+		ADS1299_WREG_Single(1,MISC1,0X20);
+		ADS1299_WREG_Single(2,MISC1,0X20);
+		
+		//ADS1299_WREG(MISC1,0X20);//SRB1闭合
+		ADS1299_WREG(CONFIG4,2);//开启leadoff比较器
+		//ADS1299_RDATAC();//连续模式
+		ADS1299_Command(_RDATA);//命令读取数据模式
+		SPI2_SetSpeed(SPI_BAUDRATEPRESCALER_8); //spi速度为11.25Mhz（24L01的最大SPI时钟为10Mhz,这里大一点没关系） 
+			delay_ms(1);
+		//ADS1299_CS0=0;
+		return 0;
 	}
 		
 	
 	//else return 1;
-	//else return 0;
-//	NRF24L01_Write_Buf(NRF_WRITE_REG+TX_ADDR,buf,5);//写入5个字节的地址.	
-//	NRF24L01_Read_Buf(TX_ADDR,buf,5); //读出写入的地址  
-//	for(i=0;i<5;i++)if(buf[i]!=0XA5)break;	 							   
-//	if(i!=5)return 1;//检测24L01错误	
-//	return 0;		 //检测到24L01
+
 }	 
 
 void Set_Sps(u8 i)
@@ -352,118 +278,12 @@ void Set_Sps(u8 i)
 				ADS1299_Command(0x12);//命令读取数据模式//退出设置模式
 }
 
-//读取寄存器数据
-u8 ADS1299_PREG(u8 reg)
-{
-	  u8 Byte;	
-   	ADS1299_CS3=0;                 //使能SPI传输
-//delay_us(200);
-  	SPI2_ReadWriteByte(0X00|0X20);//发送寄存器号
-	
-  	SPI2_ReadWriteByte(0X00);      //写入寄存器的值
-	Byte=SPI2_ReadWriteByte(0);
-//	status=SPI2_ReadWriteByte(0);
-	//delay_us(2);
-  	ADS1299_CS3=1;                 //禁止SPI传输	   
-  	return(Byte);       		    //返回状态值
-}
-//写入ADS1299寄存器数据
-void ADS1299_WREG(u8 address,u8 value)
-{
-	u8 i;
-	for(i=0;i<4;i++)
-	{
-	ADS1299_CHANGE_CHANEL(i,0);
-	//delay_us(3);
-	SPI2_ReadWriteByte(0X40|address);
-	SPI2_ReadWriteByte(00);
-	SPI2_ReadWriteByte(value);
-	//delay_us(2);
-	ADS1299_CHANGE_CHANEL(i,1);
-	}
-}
 //u8 regdata[18];
 
-#if 0					  
-void Recev_Data(void)
-{
-	u8 k;
-	//u8 inbyte;
-	//u32 stat1;
-	
-	//index1=0;
-	adc_buf2[0]=0xa0;
-	adc_buf2[27-1]=0xc0;
-	if(res3<0xff) 
-	{
-		res3++;
-	}
-	else res3=0;
-	adc_buf2[1]=res3;
-	//tcp_server_sendbuf=buf3;
-	for(k=0;k<1;k++)
-	{
-		ADS1299_CHANGE_CHANEL(k,0);
-		//HAL_SPI_Receive(&SPI2_Handler,&adc_buf2[k*24+2],24,1000);
-		//ADS1299_CS0=0;
-		//ADS1299_CS3=0;
-		//HAL_SPI_Receive_DMA(&SPI2_Handler,&adc_buf2[k*24+2],24);
-		//HAL_DMA_Start(&SPI2RxDMA_Handler,(u32)&TxData1,(u32)&adc_buf2[k*24+2],24);
-		//HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,RxData,4);
-		//HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData1,&adc_buf2[k*24+2],24);
-		HAL_SPI_TransmitReceive(&SPI2_Handler,TxData0,RxData,4, 1000); 
-		HAL_SPI_TransmitReceive(&SPI2_Handler,TxData1,&adc_buf2[k*24+2],24, 1200); 
-		//HAL_SPI_Receive_DMA(&SPI2_Handler,&adc_buf2[k*24+2],24);
-//		if(__HAL_DMA_GET_FLAG(&SPI2RxDMA_Handler,DMA_FLAG_TCIF3_7))//等待DMA2_Steam7传输完成
-//                {
-//                    __HAL_DMA_CLEAR_FLAG(&SPI2RxDMA_Handler,DMA_FLAG_TCIF3_7);//清除DMA2_Steam7传输完成标志
-//					HAL_SPI_DMAStop(&SPI2_Handler);      //传输完成以后关闭串口DMA
-//					//HAL_UART_DMAStop(&SPI2_Handler);      //传输完成以后关闭串口DMA
-//					//break; 
-//                }
-//		SPI2_ReadWriteByte(0x12);
-//			//DMA1_Channel2->CCR |= 1 << 0 ;               //开启DMA通道2
-//			//HAL_SPI_Receive_DMA(&SPI2_Handler, adc_buf2, 27);
-//			//ADS1299_CS_SWITCH(0,0);
-//			for(i=0;i<3;i++)
-//			{
-//				inbyte=SPI2_ReadWriteByte(0x00);
-//				stat1=(stat1<<8)| inbyte;
-//			}
-//			
-//			for(i=0;i<8;i++)
-//			{
-//				for(j=0;j<3;j++)
-//				{
-//				//	DMA_AD_Transmit(&SPI2_Handler,(u8*)tcp_server_sendbuf,96);
-//						adc_buf2[n++]=SPI2_ReadWriteByte(0x00);
-//					//inbyte=SPI2_ReadWriteByte(0x00);
-//						//Adc_buf[i]=(Adc_buf[i]<<8)| inbyte;
-//					
-//				}
-//				//Adcres[i+1]=(adc_buf2[n-2]<<16)+(adc_buf2[n-1]<<8)+adc_buf2[n];
-//				//Adcres[i]=(buf1[0]<<16)+(buf1[1]<<8)+buf1[2];
-//			}
-////			
-			//n=0;
-			ADS1299_CHANGE_CHANEL(k,1);
-			//delay_us(5);
-			//ADS1299_CS3=1;
-		}
-		//}
-			
-			//netcam_line_buf0=adc_buf2;
-			Num=netcam_fifo_write(adc_buf2);
-			if((Num>0)&&(~(tcp_server_flag&1<<7)))
-			{
-				tcp_server_flag|=(1<<7);//有数据要发送
-				//Num=index1;
-				//index1=0;
-			}
-}
-#endif
+				  
+
 //陷波器中间值 
-#if 1
+ 
 
 const float NUM_NOT60[3] = {
     // 0.9980853796,   -1.855992556,   0.9980853796 //1024
@@ -541,7 +361,7 @@ const float DEN[MWSPT_NSEC][3] = {
 
 #endif
 
-#endif
+//#endif
 
 typedef struct
 {
@@ -762,7 +582,12 @@ void Recev_Data(void)
 		HAL_SPI_TransmitReceive(&SPI2_Handler,TxData0,buf3,28, 1200); 
 		if(openvibeflag) memcpy(&adc_buf2[k*24+2],&buf3[4],24);
 		else
+		{
+		
 		memcpy(&adc_buf2[k*24+4],&buf3[4],24);
+		memcpy(&stat[k*3],&buf3[1],3);
+		//stat[k]=buf3[0]
+		}
 //		SPI2_ReadWriteByte(0x12);
 //		SPI2_ReadWriteByte(0x00);
 //		SPI2_ReadWriteByte(0x00);
@@ -813,7 +638,8 @@ void Recev_Data(void)
 			}
 }
  
-void EXTI4_IRQHandler(void)
+//void EXTI4_IRQHandler(void)
+void EXTI15_10_IRQHandler(void)
 {
 //	if(_HAL_GPIO_EXTI_GET_IT(GPIO_PIN_13)!=RESET)
 //	{
@@ -822,7 +648,7 @@ void EXTI4_IRQHandler(void)
 		//OSSemPost(Sem_Task_ads1299); // 发送信号量,这个函数并不会引起系统调度，所以中断服务函数一定要简洁。
 		//EXTI_ClearITPendingBit(EXTI_Line13); // 清除标志位
 		Recev_Data();
-		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_4);
+		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_12);
          //HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);//调用中断处理公用函数
 		//OSIntExit();
 	//}
