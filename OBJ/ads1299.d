@@ -2,7 +2,7 @@
 ..\obj\ads1299.o: ..\HARDWARE\ADS1299\ads1299.h
 ..\obj\ads1299.o: ..\SYSTEM\sys\sys.h
 ..\obj\ads1299.o: ..\USER\stm32f4xx.h
-..\obj\ads1299.o: ..\USER\stm32f429xx.h
+..\obj\ads1299.o: ..\USER\stm32f407xx.h
 ..\obj\ads1299.o: ..\CORE\core_cm4.h
 ..\obj\ads1299.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\ads1299.o: ..\CORE\core_cmInstr.h
@@ -38,7 +38,7 @@
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ex.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ramfunc.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sram.h
-..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fmc.h
+..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fsmc.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nor.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nand.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pccard.h
@@ -50,14 +50,12 @@
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_i2s_ex.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_iwdg.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc.h
-..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc_ex.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rng.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc_ex.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai.h
-..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai_ex.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sd.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_sdmmc.h
 ..\obj\ads1299.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_spi.h
@@ -100,3 +98,6 @@
 ..\obj\ads1299.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\obj\ads1299.o: ..\HARDWARE\LED\led.h
 ..\obj\ads1299.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+..\obj\ads1299.o: ..\LWIP\lwip_app\udp_demo\udp_demo.h
+..\obj\ads1299.o: ..\LWIP\lwip-1.4.1\src\include\lwip/udp.h
+..\obj\ads1299.o: ..\USER\iwdg.h

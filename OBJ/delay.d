@@ -2,7 +2,7 @@
 ..\obj\delay.o: ..\SYSTEM\delay\delay.h
 ..\obj\delay.o: ..\SYSTEM\sys\sys.h
 ..\obj\delay.o: ..\USER\stm32f4xx.h
-..\obj\delay.o: ..\USER\stm32f429xx.h
+..\obj\delay.o: ..\USER\stm32f407xx.h
 ..\obj\delay.o: ..\CORE\core_cm4.h
 ..\obj\delay.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\delay.o: ..\CORE\core_cmInstr.h
@@ -38,7 +38,7 @@
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ex.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ramfunc.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sram.h
-..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fmc.h
+..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fsmc.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nor.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nand.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pccard.h
@@ -50,14 +50,12 @@
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_i2s_ex.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_iwdg.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc.h
-..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc_ex.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rng.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc_ex.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai.h
-..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai_ex.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sd.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_sdmmc.h
 ..\obj\delay.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_spi.h

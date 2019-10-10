@@ -16,7 +16,7 @@
 ..\obj\ethernetif.o: ..\HARDWARE\LAN8720\lan8720.h
 ..\obj\ethernetif.o: ..\SYSTEM\sys\sys.h
 ..\obj\ethernetif.o: ..\USER\stm32f4xx.h
-..\obj\ethernetif.o: ..\USER\stm32f429xx.h
+..\obj\ethernetif.o: ..\USER\stm32f407xx.h
 ..\obj\ethernetif.o: ..\CORE\core_cm4.h
 ..\obj\ethernetif.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\ethernetif.o: ..\CORE\core_cmInstr.h
@@ -51,7 +51,7 @@
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ex.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ramfunc.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sram.h
-..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fmc.h
+..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fsmc.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nor.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nand.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pccard.h
@@ -63,14 +63,12 @@
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_i2s_ex.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_iwdg.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc.h
-..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc_ex.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rng.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc_ex.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai.h
-..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai_ex.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sd.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_sdmmc.h
 ..\obj\ethernetif.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_spi.h

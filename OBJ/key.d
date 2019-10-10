@@ -2,7 +2,7 @@
 ..\obj\key.o: ..\HARDWARE\KEY\key.h
 ..\obj\key.o: ..\SYSTEM\sys\sys.h
 ..\obj\key.o: ..\USER\stm32f4xx.h
-..\obj\key.o: ..\USER\stm32f429xx.h
+..\obj\key.o: ..\USER\stm32f407xx.h
 ..\obj\key.o: ..\CORE\core_cm4.h
 ..\obj\key.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\key.o: ..\CORE\core_cmInstr.h
@@ -38,7 +38,7 @@
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ex.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_flash_ramfunc.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sram.h
-..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fmc.h
+..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_fsmc.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nor.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_nand.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pccard.h
@@ -50,14 +50,12 @@
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_i2s_ex.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_iwdg.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc.h
-..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_ltdc_ex.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pwr_ex.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rng.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rtc_ex.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai.h
-..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sai_ex.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_sd.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_sdmmc.h
 ..\obj\key.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_spi.h

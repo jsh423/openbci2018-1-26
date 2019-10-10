@@ -14,13 +14,20 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
 //IO方向设置
-#define SDA_IN()  {GPIOE->MODER&=~(3<<(4*2));GPIOE->MODER|=0<<4*2;}	//PA12输入模式
-#define SDA_OUT() {GPIOE->MODER&=~(3<<(4*2));GPIOE->MODER|=1<<4*2;} //PA12输出模式
+#define SDA_IN()  {GPIOD->MODER&=~(3<<(9*2));GPIOD->MODER|=0<<9*2;}	//PA12输入模式
+#define SDA_OUT() {GPIOD->MODER&=~(3<<(9*2));GPIOD->MODER|=1<<9*2;} //PA12输出模式
 //IO操作
-#define IIC_SCL   PEout(3) //SCL
-#define IIC_SDA   PEout(4) //SDA
-#define READ_SDA  PEin(4)  //输入SDA
+#define IIC_SCL   PDout(8) //SCL
+#define IIC_SDA   PDout(9) //SDA
+#define READ_SDA  PDin(9)  //输入SDA
 
+////IO方向设置
+//#define SDA_IN()  {GPIOE->MODER&=~(3<<(4*2));GPIOE->MODER|=0<<4*2;}	//PA12输入模式
+//#define SDA_OUT() {GPIOE->MODER&=~(3<<(4*2));GPIOE->MODER|=1<<4*2;} //PA12输出模式
+////IO操作
+//#define IIC_SCL   PEout(3) //SCL
+//#define IIC_SDA   PEout(4) //SDA
+//#define READ_SDA  PEin(4)  //输入SDA
 //IIC所有操作函数
 void IIC_Init(void);                //初始化IIC的IO口				 
 void IIC_Start(void);				//发送IIC开始信号

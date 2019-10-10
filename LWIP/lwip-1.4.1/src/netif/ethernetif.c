@@ -18,7 +18,7 @@ static err_t low_level_init(struct netif *netif)
 	netif->hwaddr[3]=lwipdev.mac[3];   
 	netif->hwaddr[4]=lwipdev.mac[4];
 	netif->hwaddr[5]=lwipdev.mac[5];
-	netif->mtu=1500; //最大允许传输单元,允许该网卡广播和ARP功能
+	netif->mtu=2500; //最大允许传输单元,允许该网卡广播和ARP功能
 
 	netif->flags = NETIF_FLAG_BROADCAST|NETIF_FLAG_ETHARP|NETIF_FLAG_LINK_UP;
 	

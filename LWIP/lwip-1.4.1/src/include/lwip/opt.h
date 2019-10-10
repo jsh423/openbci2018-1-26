@@ -1763,8 +1763,8 @@
 #define PPP_MAXMTU                      1500 /* Largest MTU we allow */
 #endif
 #define PPP_MINMTU                      64
-#define PPP_MRU                         1500     /* default MRU = max length of info field */
-#define PPP_MAXMRU                      1500     /* Largest MRU we allow */
+#define PPP_MRU                         2000     /* default MRU = max length of info field */
+#define PPP_MAXMRU                      2000     /* Largest MRU we allow */
 #ifndef PPP_DEFMRU
 #define PPP_DEFMRU                      296             /* Try for this */
 #endif

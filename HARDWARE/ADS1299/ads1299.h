@@ -10,10 +10,13 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-#define	ADS1299_CS0 		PGout(2)  		//ADS1299的片选信号
-#define ADS1299_CS1			PGout(3)
-#define ADS1299_CS2			PGout(4)
-#define ADS1299_CS3			PGout(5)
+#define	ADS1299_CS0 		PDout(11)  		//ADS1299的片选信号
+#define ADS1299_CS1			PDout(12)
+#define ADS1299_CS2		PDout(13)
+#define ADS1299_CS3			PDout(14)
+
+#define SW_IMP PBout(14)
+#define PWM_LED PAout(0)
 //#define ADS1299_RST2		PAout(15)
 //#define ADS1299_RST3		PBout(10)
 
@@ -23,7 +26,7 @@
 //#define ADS1299_PWDN3			PBout(8)
 
 //#define ADS1299_RST0		PBout(7)
-#define ADS1299_START   PDout(12)
+//#define ADS1299_START   PDout(12)
 //#define ADS1299_PWDN0	PCout(6)
 //#define LED0 PBout(1)   //LED0
 #define ADS1299_ID 0X3E		
@@ -36,19 +39,24 @@ void ADS1299_WREG(u8 address,u8 value);
 u8 ADS1299_PREG(u8 reg);
 u8 ADS1299_PREGS(void);
 void ADS1299_RDATA(u8 *p);
+void ADS1299_Command(u8 Command);
 void ADS1299_IT(void);
 u8 ADS1299_Check(void);
 void ADS1299_CHANGE_CHANEL(u8 n,u8 sw);
 void Recev_Data(void);
 void Set_Sps(u8 i);
-
+void ImpTest_Start(void);
+void ImpTest_Stop(void);
 //void led_task(void *pdata);
 //extern u8 adc_buf2[20][27];
-extern void *Sem_Task_ads1299;
+//extern void *Sem_Task_ads1299;
 //extern u8 adc_buf2[28];
 extern u8 parameter[10];
 
+extern u8 stat[4];
+
 extern u8 sps;
+
 
 //SPI Command Definition Byte Assignments (Datasheet, p35)
 #define _WAKEUP 0x02 // Wake-up from standby mode

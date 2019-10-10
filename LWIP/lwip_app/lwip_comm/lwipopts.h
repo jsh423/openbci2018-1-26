@@ -7,7 +7,7 @@
 #define NO_SYS                  1  //不使用UCOS操作系统
 
 //使用4字节对齐模式
-#define MEM_ALIGNMENT           4  
+#define MEM_ALIGNMENT           1  
 
 //MEM_SIZE:heap内存的大小,如果在应用中有大量数据发送的话这个值最好设置大一点 
 #define MEM_SIZE                16000 //内存堆大小
@@ -25,7 +25,7 @@
 #define MEMP_NUM_TCP_PCB_LISTEN 6
 
 //MEMP_NUM_TCP_SEG:最多同时在队列中的TCP段数量
-#define MEMP_NUM_TCP_SEG        15
+#define MEMP_NUM_TCP_SEG        16
 
 //MEMP_NUM_SYS_TIMEOUT:能够同时激活的timeout个数
 #define MEMP_NUM_SYS_TIMEOUT    8
@@ -50,13 +50,13 @@
 #define TCP_MSS                 (1500 - 40)	  //TCP_MSS = (MTU - IP报头大小 - TCP报头大小
 
 //TCP发送缓冲区大小(bytes).
-#define TCP_SND_BUF             (4*TCP_MSS)
+#define TCP_SND_BUF             (2*TCP_MSS)
 
 //TCP_SND_QUEUELEN: TCP发送缓冲区大小(pbuf).这个值最小为(2 * TCP_SND_BUF/TCP_MSS) 
-#define TCP_SND_QUEUELEN        (2* TCP_SND_BUF/TCP_MSS)
+#define TCP_SND_QUEUELEN        (4* TCP_SND_BUF/TCP_MSS)
 
 //TCP发送窗口
-#define TCP_WND                 (2*TCP_MSS)
+#define TCP_WND                 (4*TCP_MSS)
 
 
 /* ---------- ICMP选项---------- */

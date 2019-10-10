@@ -134,7 +134,7 @@ PACK_STRUCT_END
 #define PPPOE_CODE_PADT       0xA7    /* Active Discovery Terminate */
 
 #ifndef ETHERMTU
-#define ETHERMTU 1500
+#define ETHERMTU 2000
 #endif
 
 /* two byte PPP protocol discriminator, then IP data */

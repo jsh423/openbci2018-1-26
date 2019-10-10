@@ -1,4 +1,5 @@
 #include "sys.h"
+#include "stm32f4xx_hal_pwr_ex.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK STM32F429开发板
@@ -59,7 +60,8 @@ void Stm32_Clock_Init(u32 plln,u32 pllm,u32 pllp,u32 pllq)
 	
     if(ret!=HAL_OK) while(1);
     
-    ret=HAL_PWREx_EnableOverDrive(); //开启Over-Driver功能
+   // ret=HAL_PWREx_EnableOverDrive(); //开启Over-Driver功能
+	//HAL_StatusTypeDef HAL_PWREx_EnableOverDrive(void)
     if(ret!=HAL_OK) while(1);
     
     //选中PLL作为系统时钟源并且配置HCLK,PCLK1和PCLK2

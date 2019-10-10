@@ -166,16 +166,16 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
 //    GPIO_Initure.Alternate=GPIO_AF5_SPI5;           //复用为SPI5
 //    HAL_GPIO_Init(GPIOF,&GPIO_Initure);
 	
-	//SPI3引脚初始化PC10,12
-//    GPIO_Initure.Pin=GPIO_PIN_10|GPIO_PIN_12|GPIO_PIN_11;
-//    GPIO_Initure.Mode=GPIO_MODE_AF_PP;              //复用推挽输出
-//    GPIO_Initure.Pull=GPIO_PULLUP;                  //上拉
-//    GPIO_Initure.Speed=GPIO_SPEED_FAST;             //快速            
-//    GPIO_Initure.Alternate=GPIO_AF5_SPI3;           //复用为SPI3
-//    HAL_GPIO_Init(GPIOC,&GPIO_Initure);
+	//SPI2引脚初始化PC2,3
+    GPIO_Initure.Pin=GPIO_PIN_2|GPIO_PIN_3;
+    GPIO_Initure.Mode=GPIO_MODE_AF_PP;              //复用推挽输出
+    GPIO_Initure.Pull=GPIO_PULLUP;                  //上拉
+    GPIO_Initure.Speed=GPIO_SPEED_FAST;             //快速            
+    GPIO_Initure.Alternate=GPIO_AF5_SPI2;           //复用为SPI3
+    HAL_GPIO_Init(GPIOC,&GPIO_Initure);
     
-    //SPI2引脚初始化PB13,14,15
-    GPIO_Initure.Pin=GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;   
+    //SPI2引脚初始化PB10
+    GPIO_Initure.Pin=GPIO_PIN_10;   
 	 GPIO_Initure.Mode=GPIO_MODE_AF_PP;              //复用推挽输出
     GPIO_Initure.Pull=GPIO_PULLUP;                  //上拉
     GPIO_Initure.Speed=GPIO_SPEED_FAST;             //快速    
@@ -228,7 +228,7 @@ u8 SPI3_WriteByte(u8 TxData)
 u8 SPI2_ReadWriteByte(u8 TxData)
 {
     u8 Rxdata;
-	u32 res;
+	//u32 res;
     HAL_SPI_TransmitReceive(&SPI2_Handler,&TxData,&Rxdata,1, 1000);      
 		//res=(u32)Rxdata;
  	return Rxdata;          		    //返回收到的数据		

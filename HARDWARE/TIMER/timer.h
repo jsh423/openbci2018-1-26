@@ -14,5 +14,9 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
 void TIM3_Init(u16 arr,u16 psc);
+void TIM4_Init(u16 arr,u16 psc);
+void TIM5_Init(u16 arr,u16 psc);
+void TIM2_PWM_Init(u16 arr,u16 psc);
+void TIM_SetTIM2(u32 compare);
 #endif
 

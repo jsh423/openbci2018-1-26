@@ -1,5 +1,5 @@
 #include "lan8720.h"
-#include "pcf8574.h"
+//#include "pcf8574.h"
 #include "lwip_comm.h"
 #include "delay.h"
 #include "malloc.h"
@@ -98,8 +98,8 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
     ETH_RMII_RXD0 --------------------> PC4
     ETH_RMII_RXD1 --------------------> PC5
     ETH_RMII_TX_EN -------------------> PB11
-    ETH_RMII_TXD0 --------------------> PG13
-    ETH_RMII_TXD1 --------------------> PG14
+    ETH_RMII_TXD0 --------------------> PB12
+    ETH_RMII_TXD1 --------------------> PB13
     ETH_RESET-------------------------> PA6*/
     
     //PA1,2,7
@@ -111,7 +111,7 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
     HAL_GPIO_Init(GPIOA,&GPIO_Initure);         //初始化
     
     //PB11
-    GPIO_Initure.Pin=GPIO_PIN_11;               //PB11
+    GPIO_Initure.Pin=GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13;               //PB11
     HAL_GPIO_Init(GPIOB,&GPIO_Initure);         //始化
     
     //PC1,4,5
@@ -119,8 +119,8 @@ void HAL_ETH_MspInit(ETH_HandleTypeDef *heth)
     HAL_GPIO_Init(GPIOC,&GPIO_Initure);         //初始化
 	
     //PG13,14
-    GPIO_Initure.Pin=GPIO_PIN_13|GPIO_PIN_14;   //PG13,14
-    HAL_GPIO_Init(GPIOG,&GPIO_Initure);         //初始化
+   // GPIO_Initure.Pin=GPIO_PIN_13|GPIO_PIN_14;   //PG13,14
+   // HAL_GPIO_Init(GPIOG,&GPIO_Initure);         //初始化
     
     HAL_NVIC_SetPriority(ETH_IRQn,1,2);         //网络中断优先级应该高一点
     HAL_NVIC_EnableIRQ(ETH_IRQn);

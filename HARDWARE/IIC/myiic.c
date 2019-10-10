@@ -13,24 +13,39 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
 
-//IIC初始化
+////IIC初始化
+//void IIC_Init(void)
+//{
+//    GPIO_InitTypeDef GPIO_Initure;
+//    
+//    __HAL_RCC_GPIOE_CLK_ENABLE();   //使能GPIOH时钟
+//    
+//    //PA11,12初始化设置
+//    GPIO_Initure.Pin=GPIO_PIN_3|GPIO_PIN_4;
+//    GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //推挽输出
+//    GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
+//    GPIO_Initure.Speed=GPIO_SPEED_FAST;     //快速
+//    HAL_GPIO_Init(GPIOE,&GPIO_Initure);
+//    
+//    IIC_SDA=1;
+//    IIC_SCL=1;  
+//}
 void IIC_Init(void)
 {
     GPIO_InitTypeDef GPIO_Initure;
     
-    __HAL_RCC_GPIOE_CLK_ENABLE();   //使能GPIOE时钟
+    __HAL_RCC_GPIOD_CLK_ENABLE();   //使能GPIOH时钟
     
     //PA11,12初始化设置
-    GPIO_Initure.Pin=GPIO_PIN_3|GPIO_PIN_4;
+    GPIO_Initure.Pin=GPIO_PIN_8|GPIO_PIN_9;
     GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //推挽输出
-    GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
+    GPIO_Initure.Pull=GPIO_PULLDOWN;          //上拉
     GPIO_Initure.Speed=GPIO_SPEED_FAST;     //快速
-    HAL_GPIO_Init(GPIOE,&GPIO_Initure);
+    HAL_GPIO_Init(GPIOD,&GPIO_Initure);
     
     IIC_SDA=1;
     IIC_SCL=1;  
 }
-
 //产生IIC起始信号
 void IIC_Start(void)
 {
@@ -59,6 +74,7 @@ void IIC_Stop(void)
 u8 IIC_Wait_Ack(void)
 {
 	u8 ucErrTime=0;
+	//IIC_SDA=1;
 	SDA_IN();      //SDA设置为输入  
 	IIC_SDA=1;
 	delay_us(2);	   
