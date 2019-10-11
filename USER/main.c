@@ -20,6 +20,7 @@
 //#include "adg731.h"
 #include "myiic.h"
 #include "iwdg.h"
+#include "spi.h"
 
 /************************************************
 
@@ -46,7 +47,6 @@ int main(void)
 	//Adg731_Init();
 	ADS1299_Init();
 	TCA6424A_Init();
-	//AD5933_Init();//增加会加大信号噪声
     my_mem_init(SRAMIN);		    //初始化内部内存池
 	//my_mem_init(SRAMCCM);		    //初始化CCM内存池
 	

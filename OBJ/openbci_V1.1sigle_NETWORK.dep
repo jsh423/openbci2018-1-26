@@ -1,5 +1,5 @@
 Dependencies for Project 'openbci_V1.1sigle', Target 'NETWORK': (DO NOT MODIFY !)
-F (.\main.c)(0x5D5CB8ED)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x5D9F17D9)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\SYSTEM\sys\sys.h)(0x5787015D)
 I (..\USER\stm32f4xx.h)(0x5787015E)
 I (..\USER\stm32f407xx.h)(0x5822CD6A)
@@ -90,7 +90,7 @@ I (..\LWIP\lwip-1.4.1\src\include\ipv4\lwip/ip_addr.h)(0x5787015F)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/def.h)(0x5787015F)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/pbuf.h)(0x5787015F)
 I (..\LWIP\lwip_app\lwip_comm\lwip_comm.h)(0x57870160)
-I (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h)(0x5C356E1C)
+I (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h)(0x5D9F1629)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/stats.h)(0x5787015F)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/mem.h)(0x5787015F)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/memp.h)(0x5787015F)
@@ -102,7 +102,8 @@ I (..\HARDWARE\ADS1299\ads1299.h)(0x5C429F57)
 I (..\HARDWARE\tca6424a\TCA6424A.h)(0x5BE104C1)
 I (..\HARDWARE\IIC\myiic.h)(0x5BE104C1)
 I (iwdg.h)(0x5AD9BA29)
-F (.\stm32f4xx_it.c)(0x5787015E)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\stm32f4xx_it.o --omf_browse ..\obj\stm32f4xx_it.crf --depend ..\obj\stm32f4xx_it.d)
+I (..\HARDWARE\SPI\spi.h)(0x5D9F0146)
+F (.\stm32f4xx_it.c)(0x5D9EFAE1)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\stm32f4xx_it.o --omf_browse ..\obj\stm32f4xx_it.crf --depend ..\obj\stm32f4xx_it.d)
 I (main.h)(0x5787015E)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal.h)(0x5787015C)
 I (..\USER\stm32f4xx_hal_conf.h)(0x5787015E)
@@ -173,6 +174,8 @@ I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h)(0x5787015D)
 I (stm32f4xx_it.h)(0x5787015E)
+I (..\HARDWARE\SPI\spi.h)(0x5D9F0146)
+I (..\SYSTEM\sys\sys.h)(0x5787015D)
 F (.\system_stm32f4xx.c)(0x5BE10E41)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\system_stm32f4xx.o --omf_browse ..\obj\system_stm32f4xx.crf --depend ..\obj\system_stm32f4xx.d)
 I (stm32f4xx.h)(0x5787015E)
 I (stm32f407xx.h)(0x5822CD6A)
@@ -2274,7 +2277,7 @@ I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h)(0x5787015D)
 I (..\HARDWARE\LED\led.h)(0x5C2D7D4A)
-F (..\HARDWARE\ADS1299\ads1299.c)(0x5D8C5903)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\ads1299.o --omf_browse ..\obj\ads1299.crf --depend ..\obj\ads1299.d)
+F (..\HARDWARE\ADS1299\ads1299.c)(0x5DA02E87)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\ads1299.o --omf_browse ..\obj\ads1299.crf --depend ..\obj\ads1299.d)
 I (..\HARDWARE\ADS1299\ads1299.h)(0x5C429F57)
 I (..\SYSTEM\sys\sys.h)(0x5787015D)
 I (..\USER\stm32f4xx.h)(0x5787015E)
@@ -2345,10 +2348,10 @@ I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h)(0x5787015D)
-I (..\HARDWARE\SPI\spi.h)(0x5A571E4A)
+I (..\HARDWARE\SPI\spi.h)(0x5D9F0146)
 I (..\SYSTEM\delay\delay.h)(0x5787015D)
 I (..\MALLOC\malloc.h)(0x5BE13806)
-I (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h)(0x5C356E1C)
+I (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h)(0x5D9F1629)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/debug.h)(0x5787015F)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/arch.h)(0x5787015F)
 I (..\LWIP\arch/cc.h)(0x5787015F)
@@ -2375,8 +2378,8 @@ I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x57F606B6)
 I (..\LWIP\lwip_app\udp_demo\udp_demo.h)(0x5BF4D17F)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/udp.h)(0x5787015F)
 I (..\USER\iwdg.h)(0x5AD9BA29)
-F (..\HARDWARE\SPI\spi.c)(0x5BF4D0E3)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\spi.o --omf_browse ..\obj\spi.crf --depend ..\obj\spi.d)
-I (..\HARDWARE\SPI\spi.h)(0x5A571E4A)
+F (..\HARDWARE\SPI\spi.c)(0x5D9F11F5)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\spi.o --omf_browse ..\obj\spi.crf --depend ..\obj\spi.d)
+I (..\HARDWARE\SPI\spi.h)(0x5D9F0146)
 I (..\SYSTEM\sys\sys.h)(0x5787015D)
 I (..\USER\stm32f4xx.h)(0x5787015E)
 I (..\USER\stm32f407xx.h)(0x5822CD6A)
@@ -2446,7 +2449,7 @@ I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_ll_usb.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h)(0x5787015D)
 I (..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h)(0x5787015D)
-I (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h)(0x5C356E1C)
+I (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h)(0x5D9F1629)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/debug.h)(0x5787015F)
 I (..\LWIP\lwip-1.4.1\src\include\lwip/arch.h)(0x5787015F)
 I (..\LWIP\arch/cc.h)(0x5787015F)
@@ -2467,6 +2470,9 @@ I (..\LWIP\lwip-1.4.1\src\include\lwip/netif.h)(0x5787015F)
 I (..\LWIP\lwip-1.4.1\src\include\ipv4\lwip/icmp.h)(0x5787015F)
 I (..\LWIP\lwip_app\lwip_comm\lwip_comm.h)(0x57870160)
 I (..\HARDWARE\LAN8720\lan8720.h)(0x5787015E)
+I (..\HARDWARE\ADS1299\ads1299.h)(0x5C429F57)
+I (..\MALLOC\malloc.h)(0x5BE13806)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 F (..\HARDWARE\tca6424a\TCA6424A.c)(0x5CAB1722)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\tca6424a.o --omf_browse ..\obj\tca6424a.crf --depend ..\obj\tca6424a.d)
 I (..\HARDWARE\tca6424a\TCA6424A.h)(0x5BE104C1)
 I (..\SYSTEM\sys\sys.h)(0x5787015D)
@@ -2783,8 +2789,8 @@ I (..\LWIP\lwip-1.4.1\src\include\lwip/tcpip.h)(0x5787015F)
 I (..\MALLOC\malloc.h)(0x5BE13806)
 I (..\SYSTEM\delay\delay.h)(0x5787015D)
 I (..\SYSTEM\usart\usart.h)(0x5A39D617)
-F (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.c)(0x5D8C58D5)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\tcp_server_demo.o --omf_browse ..\obj\tcp_server_demo.crf --depend ..\obj\tcp_server_demo.d)
-I (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h)(0x5C356E1C)
+F (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.c)(0x5D9F0958)(-c --cpu Cortex-M4.fp -D__MICROLIB -g -O2 --apcs=interwork --split_sections -I ..\CORE -I ..\OBJ -I ..\USER -I ..\HALLIB\STM32F4xx_HAL_Driver\Inc -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\HARDWARE\LED -I ..\HARDWARE\KEY -I ..\HARDWARE\LCD -I ..\HARDWARE\KEY -I ..\HARDWARE\IIC -I ..\HARDWARE\LAN8720 -I ..\HARDWARE\PCF8574 -I ..\HARDWARE\TIMER -I ..\USMART -I ..\MALLOC -I ..\LWIP -I ..\LWIP\arch -I ..\LWIP\lwip-1.4.1\src\include -I ..\LWIP\lwip-1.4.1\src\include\ipv4 -I ..\LWIP\lwip-1.4.1\src\include\netif -I ..\LWIP\lwip_app\lwip_comm -I ..\LWIP\lwip_app\tcp_server_demo -I ..\HARDWARE\ADS1299 -I ..\HARDWARE\SPI -I ..\HARDWARE\AD5933 -I ..\HARDWARE\tca6424a -I ..\HARDWARE\ADG731 -I ..\LWIP\lwip_app\udp_demo-I.\RTE\_NETWORK-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.11.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="523" -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx --C99-o ..\obj\tcp_server_demo.o --omf_browse ..\obj\tcp_server_demo.crf --depend ..\obj\tcp_server_demo.d)
+I (..\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.h)(0x5D9F1629)
 I (..\SYSTEM\sys\sys.h)(0x5787015D)
 I (..\USER\stm32f4xx.h)(0x5787015E)
 I (..\USER\stm32f407xx.h)(0x5822CD6A)

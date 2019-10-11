@@ -18,6 +18,15 @@ extern SPI_HandleTypeDef SPI3_Handler;  //SPI5¾ä±ú
 extern SPI_HandleTypeDef SPI2_Handler;  //SPI2¾ä±ú
 extern DMA_HandleTypeDef   DMASPIRx_Handler;        //DMA¾ä±ú
 
+/* Definition for SPIx's NVIC */
+#define SPIx_DMA_TX_IRQn                 DMA1_Stream4_IRQn
+#define SPIx_DMA_RX_IRQn                 DMA1_Stream3_IRQn
+#define SPIx_DMA_TX_IRQHandler           DMA1_Stream4_IRQHandler
+#define SPIx_DMA_RX_IRQHandler           DMA1_Stream3_IRQHandler
+
+#define SPIx_FORCE_RESET()               __HAL_RCC_SPI2_FORCE_RESET()
+#define SPIx_RELEASE_RESET()             __HAL_RCC_SPI2_RELEASE_RESET()
+
 extern void (*spi2_rx_callback)(void);
 
 void SPI3_Init(void);

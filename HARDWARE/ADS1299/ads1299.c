@@ -17,7 +17,7 @@
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
 u8 check=0;
-u8 TxData0[28]={0x12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //发送地址
+u8 TxData0[55]={0x12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //发送地址
 //u8 TxData1[24]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 //u8 RxData[4][4]; //接受地址
 u8 sps=0x06;
@@ -25,10 +25,11 @@ u8 gain=0x05;//06:24,05:12,04:8,03:6,02:4,01:2,00:1
 u8 parameter[10];
 u8 Flag_adc;
 //u32 stat;
-u8 index1=0;
+u8 index1;
 u8 res3;
 u8 adc_buf2[105];
 u8 stat[4];
+extern u8 *netcamfifobuf;
  //adc_buf2[0]=0xaa;
 //int32_t Adcres[32];
 //float32_t input[20];
@@ -215,7 +216,7 @@ void ADS1299_IT(void)
     HAL_GPIO_Init(GPIOD,&GPIO_Initure);
 	
 	 //中断线13-PD10
-    HAL_NVIC_SetPriority(EXTI15_10_IRQn,1,1);   //抢占优先级为2，子优先级为1
+    HAL_NVIC_SetPriority(EXTI15_10_IRQn,0,1);   //抢占优先级为2，子优先级为1
     HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);         //使能中断线13 
 	if(openvibeflag) ADS1299_Command(_START);
 	else ADS1299_Command(_STOP);
@@ -390,7 +391,7 @@ void Recev_Data(void)
 	
 	adc_buf2[3]=res3;
 	}
-	 IWDG_Feed();    //喂狗
+	// IWDG_Feed();    //喂狗
 	//tcp_server_sendbuf=buf3;'
 	for(k=0;k<4;k++)
 	{
@@ -483,14 +484,87 @@ void EXTI15_10_IRQHandler(void)
 		//OSIntEnter();
 		//OSSemPost(Sem_Task_ads1299); // 发送信号量,这个函数并不会引起系统调度，所以中断服务函数一定要简洁。
 		//EXTI_ClearITPendingBit(EXTI_Line13); // 清除标志位
-		Recev_Data();
+		index1=0;
+		ADS1299_CS0=0;
+		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,netcamfifobuf,55);
+		//Recev_Data();
 		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_10);
          //HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);//调用中断处理公用函数
 		//OSIntExit();
 	//}
 }
 
-u8 err;
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+  /* Turn LED2 on: Transfer in transmission/reception process is complete */
+  //BSP_LED_On(LED2);
+	u8 buf[28];
+  //wTransferState = TRANSFER_COMPLETE;
+	//static u8 Num1;
+	
+	switch(index1)
+	{
+		case 0:
+	
+		ADS1299_CS0=1;
+		memcpy(&adc_buf2[index1*24+8],&buf[4],28);
+//		ADS1299_CS3=0;
+//		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,buf,28);
+		//memcpy(netcamfifobuf[28],buf,28);
+		tcp_server_flag|=(1<<7);//有数据要发送
+			//udp_demo_flag|=(1<<7);
+			
+//				//Num=index1;
+////				//index1=0;
+	//}
+		//memset(adc_buf2,0,105);
+//		tcp_server_flag|=(1<<7);//有数据要发送
+		tcp_server_sendbuf=adc_buf2;
+		len=28*4;
+		//sprintf(netcamfifobuf,%x,buf);
+		index1=4;
+		break;
+		case 1:
+		ADS1299_CS1=1;
+		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
+		ADS1299_CS2=0;
+		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,buf,28);
+		///memcpy(&adc_buf2[index1*24+2],&buf[4],24);
+		index1=2;
+		break;
+		case 2:
+		ADS1299_CS2=1;
+		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
+		ADS1299_CS3=0;
+		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,buf,28);
+		//memcpy(&adc_buf2[index1*24+2],&buf[4],24);
+		index1=3;
+		break;
+		case 3:
+		ADS1299_CS3=1;
+		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
+		//memcpy(&adc_buf2[4],stat,4);
+		//Num=netcam_fifo_write(&adc_buf2[0]);
+		//if((Num>0)&&(~(tcp_server_flag&1<<7)))
+		{
+			tcp_server_flag|=(1<<7);//有数据要发送
+			//udp_demo_flag|=(1<<7);
+			
+//				//Num=index1;
+////				//index1=0;
+		}
+		//memset(adc_buf2,0,105);
+//		tcp_server_flag|=(1<<7);//有数据要发送
+		tcp_server_sendbuf=adc_buf2;
+		len=55;
+		index1=4;
+		break;
+		default:
+			break;
+	
+	}
+
+}
 //led任务
 //void ads1299_task(void *pdata)
 //{
@@ -513,25 +587,25 @@ u8 err;
 //中断服务程序中需要做的事情
 //在HAL库中所有的外部中断服务函数都会调用此函数
 //对ADS1299的数据进行处理
-u8 t;
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-//u8 inbyte,i,j,k,n=2;
-//adc_buf2[0]=0xa0;
-	//adc_buf2[26]=0xc0;
-	//u32 byteCounter=0,channelData[8];
-	//delay_us(2);//做一个小延时，以防止干扰
-	if(GPIO_Pin==GPIO_PIN_13)
-	{
-		//ads1299_data
-		//ads1299_data_flag=1;
-		Recev_Data();
+//u8 t;
+//void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+//{
+////u8 inbyte,i,j,k,n=2;
+////adc_buf2[0]=0xa0;
+//	//adc_buf2[26]=0xc0;
+//	//u32 byteCounter=0,channelData[8];
+//	//delay_us(2);//做一个小延时，以防止干扰
+//	if(GPIO_Pin==GPIO_PIN_13)
+//	{
+//		//ads1299_data
+//		//ads1299_data_flag=1;
+//		Recev_Data();
 
-		
-			
-	
-}
-}
+//		
+//			
+//	
+//}
+//}
 
 //#define Sample 2000		//采样点数
 //#define BLOCK_SIZE 20	//调用一次arm_fir_f32处理的采样点个数

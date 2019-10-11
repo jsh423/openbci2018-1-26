@@ -92,3 +92,6 @@
 ..\obj\spi.o: ..\LWIP\lwip-1.4.1\src\include\ipv4\lwip/icmp.h
 ..\obj\spi.o: ..\LWIP\lwip_app\lwip_comm\lwip_comm.h
 ..\obj\spi.o: ..\HARDWARE\LAN8720\lan8720.h
+..\obj\spi.o: ..\HARDWARE\ADS1299\ads1299.h
+..\obj\spi.o: ..\MALLOC\malloc.h
+..\obj\spi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h

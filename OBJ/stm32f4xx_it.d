@@ -70,3 +70,5 @@
 ..\obj\stm32f4xx_it.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_pcd_ex.h
 ..\obj\stm32f4xx_it.o: ..\HALLIB\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_hcd.h
 ..\obj\stm32f4xx_it.o: stm32f4xx_it.h
+..\obj\stm32f4xx_it.o: ..\HARDWARE\SPI\spi.h
+..\obj\stm32f4xx_it.o: ..\SYSTEM\sys\sys.h

@@ -40,7 +40,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_it.h"
-
+#include "spi.h"
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
   */
@@ -157,6 +157,25 @@ void PendSV_Handler(void)
 void SysTick_Handler(void)
 {
   HAL_IncTick();
+}
+/*
+  * @brief  This function handles DMA Rx interrupt request.  
+  * @param  None
+  * @retval None    
+  */
+void SPIx_DMA_RX_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(SPI2_Handler.hdmarx);
+}
+
+/**
+  * @brief  This function handles DMA Tx interrupt request.
+  * @param  None
+  * @retval None  
+  */
+void SPIx_DMA_TX_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(SPI2_Handler.hdmatx);
 }
 
 /******************************************************************************/

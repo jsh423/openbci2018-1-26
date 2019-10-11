@@ -1,5 +1,8 @@
 #include "spi.h"
 #include "tcp_server_demo.h" 
+#include "ads1299.h"
+#include "malloc.h"
+#include <string.h>
 //#include "openbci.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 
@@ -14,6 +17,8 @@ SPI_HandleTypeDef SPI3_Handler;  //SPI5句柄
 SPI_HandleTypeDef SPI2_Handler;  //SPI2句柄
 DMA_HandleTypeDef   DMASPIRx_Handler;        //DMA句柄
 DMA_HandleTypeDef   DMASPITx_Handler;        //DMA句柄
+
+
 //以下是SPI模块的初始化代码，配置成主机模式 						  
 //SPI口初始化
 //这里针是对SPI5的初始化
@@ -60,7 +65,8 @@ void SPI2_Init(void)
 	//SPI2->CR2 |= 1<<1  ;	        //发送缓冲区DMA使能
 	//SPI2->CR2 |= 1<<0  ;	        //接收缓冲区DMA使能
     __HAL_SPI_ENABLE(&SPI2_Handler);                 //使能SPI2
-    SPI2_ReadWriteByte(0Xff);                        //启动传输
+	
+    //SPI2_ReadWriteByte(0Xff);                        //启动传输
 }
 //mem0addr:存储器地址0  将要存储摄像头数据的内存地址(也可以是外设地址)
 //mem1addr:存储器地址1  当只使用mem0addr的时候,该值必须为0
@@ -122,18 +128,18 @@ void BCI_DMA_Init(u8 mem0addr,u8 mem1addr,u8 memsize)
 }
 void (*spi2_rx_callback)(void);//SPI DMA接收回调函数
 //DMA2数据流1中断服务函数
-void DMA1_Stream3_IRQHandler(void)
-{
-	//OSIntEnter();
-    if(__HAL_DMA_GET_FLAG(&DMASPIRx_Handler,DMA_FLAG_TCIF3_7)!=RESET)//DMA传输完成
-    {
-        __HAL_DMA_CLEAR_FLAG(&DMASPIRx_Handler,DMA_FLAG_TCIF3_7);//清除DMA传输完成中断标志位
-        spi2_rx_callback();	//执行摄像头接收回调函数,读取数据等操作在这里面处理
-		//tcp_server_flag|=(1<<7);//有数据要发送	//netcam_line_buf1写入FIFO 
-		HAL_SPI_DMAStop(&SPI2_Handler);
-    } 
-	//OSIntExit();
-}
+//void DMA1_Stream3_IRQHandler(void)
+//{
+//	//OSIntEnter();
+//    if(__HAL_DMA_GET_FLAG(&DMASPIRx_Handler,DMA_FLAG_TCIF3_7)!=RESET)//DMA传输完成
+//    {
+//        __HAL_DMA_CLEAR_FLAG(&DMASPIRx_Handler,DMA_FLAG_TCIF3_7);//清除DMA传输完成中断标志位
+//        spi2_rx_callback();	//执行摄像头接收回调函数,读取数据等操作在这里面处理
+//		//tcp_server_flag|=(1<<7);//有数据要发送	//netcam_line_buf1写入FIFO 
+//		HAL_SPI_DMAStop(&SPI2_Handler);
+//    } 
+//	//OSIntExit();
+//}
 void ADS1299_DMA_Start(void)
 {
 	//HAL_DMA_Start（DMASPIRx_Handler,netcambuf0,netcambuf1
@@ -158,6 +164,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
     __HAL_RCC_SPI3_CLK_ENABLE();        //使能SPI3时钟
     __HAL_RCC_SPI2_CLK_ENABLE();        //使能SPI2时钟
     
+	__HAL_RCC_DMA1_CLK_ENABLE();                                    //使能DMA1时钟
     //SPI5引脚初始化PF7,8,9
 //    GPIO_Initure.Pin=GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
 //    GPIO_Initure.Mode=GPIO_MODE_AF_PP;              //复用推挽输出
@@ -181,8 +188,88 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
     GPIO_Initure.Speed=GPIO_SPEED_FAST;             //快速    
     GPIO_Initure.Alternate=GPIO_AF5_SPI2;           //复用为SPI2
     HAL_GPIO_Init(GPIOB,&GPIO_Initure);             //初始化
+	
+	
+	 /* Configure the DMA handler for Transmission process */
+  DMASPITx_Handler.Instance                 = DMA1_Stream4;
+  
+  DMASPITx_Handler.Init.Channel             = DMA_CHANNEL_0;
+  DMASPITx_Handler.Init.Direction           = DMA_MEMORY_TO_PERIPH;
+  DMASPITx_Handler.Init.PeriphInc           = DMA_PINC_DISABLE;
+  DMASPITx_Handler.Init.MemInc              = DMA_MINC_ENABLE;
+  DMASPITx_Handler.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  DMASPITx_Handler.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+  DMASPITx_Handler.Init.Mode                = DMA_NORMAL;
+  DMASPITx_Handler.Init.Priority            = DMA_PRIORITY_LOW;
+  DMASPITx_Handler.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;         
+  DMASPITx_Handler.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
+  DMASPITx_Handler.Init.MemBurst            = DMA_MBURST_INC4;
+  DMASPITx_Handler.Init.PeriphBurst         = DMA_PBURST_INC4;
+  
+  HAL_DMA_Init(&DMASPITx_Handler);   
+  
+  /* Associate the initialized DMA handle to the the SPI handle */
+  __HAL_LINKDMA(hspi, hdmatx, DMASPITx_Handler);
+    
+  /* Configure the DMA handler for Transmission process */
+  DMASPIRx_Handler.Instance                 = DMA1_Stream3;
+  
+  DMASPIRx_Handler.Init.Channel             = DMA_CHANNEL_0;
+  DMASPIRx_Handler.Init.Direction           = DMA_PERIPH_TO_MEMORY;
+  DMASPIRx_Handler.Init.PeriphInc           = DMA_PINC_DISABLE;
+  DMASPIRx_Handler.Init.MemInc              = DMA_MINC_ENABLE;
+  DMASPIRx_Handler.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  DMASPIRx_Handler.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+  DMASPIRx_Handler.Init.Mode                = DMA_NORMAL;
+  DMASPIRx_Handler.Init.Priority            = DMA_PRIORITY_HIGH;
+  DMASPIRx_Handler.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;         
+  DMASPIRx_Handler.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
+  DMASPIRx_Handler.Init.MemBurst            = DMA_MBURST_INC4;
+  DMASPIRx_Handler.Init.PeriphBurst         = DMA_PBURST_INC4; 
+
+  HAL_DMA_Init(&DMASPIRx_Handler);
+    
+  /* Associate the initialized DMA handle to the the SPI handle */
+  __HAL_LINKDMA(hspi, hdmarx, DMASPIRx_Handler);
+    
+  /*##-4- Configure the NVIC for DMA #########################################*/ 
+  /* NVIC configuration for DMA transfer complete interrupt (SPI3_TX) */
+  HAL_NVIC_SetPriority(SPIx_DMA_TX_IRQn, 2, 1);
+  HAL_NVIC_EnableIRQ(SPIx_DMA_TX_IRQn);
+    
+  /* NVIC configuration for DMA transfer complete interrupt (SPI3_RX) */
+  HAL_NVIC_SetPriority(SPIx_DMA_RX_IRQn, 2, 0);   
+  HAL_NVIC_EnableIRQ(SPIx_DMA_RX_IRQn);
+	
 }
 
+void HAL_SPI_MspDeInit(SPI_HandleTypeDef *hspi)
+{
+  
+
+
+  /*##-1- Reset peripherals ##################################################*/
+  SPIx_FORCE_RESET();
+  SPIx_RELEASE_RESET();
+
+  /*##-2- Disable peripherals and GPIO Clocks ################################*/
+  /* Configure SPI SCK as alternate function  */
+  HAL_GPIO_DeInit(GPIOB, GPIO_PIN_10);
+  /* Configure SPI MISO as alternate function  */
+  HAL_GPIO_DeInit(GPIOC, GPIO_PIN_2);
+  /* Configure SPI MOSI as alternate function  */
+  HAL_GPIO_DeInit(GPIOC, GPIO_PIN_3);
+   
+  /*##-3- Disable the DMA Streams ############################################*/
+  /* De-Initialize the DMA Stream associate to transmission process */
+  HAL_DMA_DeInit(&DMASPITx_Handler); 
+  /* De-Initialize the DMA Stream associate to reception process */
+  HAL_DMA_DeInit(&DMASPIRx_Handler);
+  
+  /*##-4- Disable the NVIC for DMA ###########################################*/
+  HAL_NVIC_DisableIRQ(SPIx_DMA_TX_IRQn);
+  HAL_NVIC_DisableIRQ(SPIx_DMA_RX_IRQn);
+}
 //SPI速度设置函数
 //SPI速度=fAPB1/分频系数
 //@ref SPI_BaudRate_Prescaler:SPI_BAUDRATEPRESCALER_2~SPI_BAUDRATEPRESCALER_2 256
@@ -233,6 +320,33 @@ u8 SPI2_ReadWriteByte(u8 TxData)
 		//res=(u32)Rxdata;
  	return Rxdata;          		    //返回收到的数据		
 }
+
+
+	//flag_wifi=1;
+	//len_wifi=28;
+//}
+
+ void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi)
+{
+  /* Turn LED5 on: Transfer error in reception/transmission process */
+  //BSP_LED_On(LED5); 
+}
+
+//void SPI2_IRQHandler(void)
+//{
+//  /* USER CODE BEGIN SPI2_IRQn 0 */
+
+//  /* USER CODE END SPI2_IRQn 0 */
+//  
+//	ADS1299_CS0=1;
+//	tcp_server_flag|=(1<<7);//有数据要发送
+//	tcp_server_sendbuf=netcamfifobuf;
+//	len=28;
+//	HAL_SPI_IRQHandler(&SPI2_Handler);
+//  /* USER CODE BEGIN SPI2_IRQn 1 */
+
+//  /* USER CODE END SPI2_IRQn 1 */
+//}
 
 ////SPI2 读写一个字节
 ////TxData:要写入的字节

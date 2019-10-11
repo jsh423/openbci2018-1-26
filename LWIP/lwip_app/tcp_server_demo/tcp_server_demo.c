@@ -77,7 +77,7 @@ u16 led_pwmtime;			//闪光刺激计时器 单位s
 //NET CAM FIFO
 vu16 netcamfifordpos=0;					    //FIFO读位置
 vu16 netcamfifowrpos=0;					    //FIFO写位置
-u8 *netcamfifobuf;	    //定义NETCAM_FIFO_SIZE个接收FIFO	
+u8* netcamfifobuf;	    //定义NETCAM_FIFO_SIZE个接收FIFO	
 u32 State_Im;
 //u8 t=0;
 
