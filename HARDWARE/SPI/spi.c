@@ -190,56 +190,56 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
     HAL_GPIO_Init(GPIOB,&GPIO_Initure);             //≥ı ºªØ
 	
 	
-	 /* Configure the DMA handler for Transmission process */
-  DMASPITx_Handler.Instance                 = DMA1_Stream4;
-  
-  DMASPITx_Handler.Init.Channel             = DMA_CHANNEL_0;
-  DMASPITx_Handler.Init.Direction           = DMA_MEMORY_TO_PERIPH;
-  DMASPITx_Handler.Init.PeriphInc           = DMA_PINC_DISABLE;
-  DMASPITx_Handler.Init.MemInc              = DMA_MINC_ENABLE;
-  DMASPITx_Handler.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  DMASPITx_Handler.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
-  DMASPITx_Handler.Init.Mode                = DMA_NORMAL;
-  DMASPITx_Handler.Init.Priority            = DMA_PRIORITY_LOW;
-  DMASPITx_Handler.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;         
-  DMASPITx_Handler.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
-  DMASPITx_Handler.Init.MemBurst            = DMA_MBURST_INC4;
-  DMASPITx_Handler.Init.PeriphBurst         = DMA_PBURST_INC4;
-  
-  HAL_DMA_Init(&DMASPITx_Handler);   
-  
-  /* Associate the initialized DMA handle to the the SPI handle */
-  __HAL_LINKDMA(hspi, hdmatx, DMASPITx_Handler);
-    
-  /* Configure the DMA handler for Transmission process */
-  DMASPIRx_Handler.Instance                 = DMA1_Stream3;
-  
-  DMASPIRx_Handler.Init.Channel             = DMA_CHANNEL_0;
-  DMASPIRx_Handler.Init.Direction           = DMA_PERIPH_TO_MEMORY;
-  DMASPIRx_Handler.Init.PeriphInc           = DMA_PINC_DISABLE;
-  DMASPIRx_Handler.Init.MemInc              = DMA_MINC_ENABLE;
-  DMASPIRx_Handler.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  DMASPIRx_Handler.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
-  DMASPIRx_Handler.Init.Mode                = DMA_NORMAL;
-  DMASPIRx_Handler.Init.Priority            = DMA_PRIORITY_HIGH;
-  DMASPIRx_Handler.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;         
-  DMASPIRx_Handler.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
-  DMASPIRx_Handler.Init.MemBurst            = DMA_MBURST_INC4;
-  DMASPIRx_Handler.Init.PeriphBurst         = DMA_PBURST_INC4; 
+//	 /* Configure the DMA handler for Transmission process */
+//  DMASPITx_Handler.Instance                 = DMA1_Stream4;
+//  
+//  DMASPITx_Handler.Init.Channel             = DMA_CHANNEL_0;
+//  DMASPITx_Handler.Init.Direction           = DMA_MEMORY_TO_PERIPH;
+//  DMASPITx_Handler.Init.PeriphInc           = DMA_PINC_DISABLE;
+//  DMASPITx_Handler.Init.MemInc              = DMA_MINC_ENABLE;
+//  DMASPITx_Handler.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+//  DMASPITx_Handler.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+//  DMASPITx_Handler.Init.Mode                = DMA_NORMAL;
+//  DMASPITx_Handler.Init.Priority            = DMA_PRIORITY_LOW;
+//  DMASPITx_Handler.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;         
+//  DMASPITx_Handler.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
+//  DMASPITx_Handler.Init.MemBurst            = DMA_MBURST_INC4;
+//  DMASPITx_Handler.Init.PeriphBurst         = DMA_PBURST_INC4;
+//  
+//  HAL_DMA_Init(&DMASPITx_Handler);   
+//  
+//  /* Associate the initialized DMA handle to the the SPI handle */
+//  __HAL_LINKDMA(hspi, hdmatx, DMASPITx_Handler);
+//    
+//  /* Configure the DMA handler for Transmission process */
+//  DMASPIRx_Handler.Instance                 = DMA1_Stream3;
+//  
+//  DMASPIRx_Handler.Init.Channel             = DMA_CHANNEL_0;
+//  DMASPIRx_Handler.Init.Direction           = DMA_PERIPH_TO_MEMORY;
+//  DMASPIRx_Handler.Init.PeriphInc           = DMA_PINC_DISABLE;
+//  DMASPIRx_Handler.Init.MemInc              = DMA_MINC_ENABLE;
+//  DMASPIRx_Handler.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+//  DMASPIRx_Handler.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+//  DMASPIRx_Handler.Init.Mode                = DMA_NORMAL;
+//  DMASPIRx_Handler.Init.Priority            = DMA_PRIORITY_HIGH;
+//  DMASPIRx_Handler.Init.FIFOMode            = DMA_FIFOMODE_DISABLE;         
+//  DMASPIRx_Handler.Init.FIFOThreshold       = DMA_FIFO_THRESHOLD_FULL;
+//  DMASPIRx_Handler.Init.MemBurst            = DMA_MBURST_INC4;
+//  DMASPIRx_Handler.Init.PeriphBurst         = DMA_PBURST_INC4; 
 
-  HAL_DMA_Init(&DMASPIRx_Handler);
-    
-  /* Associate the initialized DMA handle to the the SPI handle */
-  __HAL_LINKDMA(hspi, hdmarx, DMASPIRx_Handler);
-    
-  /*##-4- Configure the NVIC for DMA #########################################*/ 
-  /* NVIC configuration for DMA transfer complete interrupt (SPI3_TX) */
-  HAL_NVIC_SetPriority(SPIx_DMA_TX_IRQn, 2, 1);
-  HAL_NVIC_EnableIRQ(SPIx_DMA_TX_IRQn);
-    
-  /* NVIC configuration for DMA transfer complete interrupt (SPI3_RX) */
-  HAL_NVIC_SetPriority(SPIx_DMA_RX_IRQn, 2, 0);   
-  HAL_NVIC_EnableIRQ(SPIx_DMA_RX_IRQn);
+//  HAL_DMA_Init(&DMASPIRx_Handler);
+//    
+//  /* Associate the initialized DMA handle to the the SPI handle */
+//  __HAL_LINKDMA(hspi, hdmarx, DMASPIRx_Handler);
+//    
+//  /*##-4- Configure the NVIC for DMA #########################################*/ 
+//  /* NVIC configuration for DMA transfer complete interrupt (SPI3_TX) */
+//  HAL_NVIC_SetPriority(SPIx_DMA_TX_IRQn, 2, 1);
+//  HAL_NVIC_EnableIRQ(SPIx_DMA_TX_IRQn);
+//    
+//  /* NVIC configuration for DMA transfer complete interrupt (SPI3_RX) */
+//  HAL_NVIC_SetPriority(SPIx_DMA_RX_IRQn, 2, 0);   
+//  HAL_NVIC_EnableIRQ(SPIx_DMA_RX_IRQn);
 	
 }
 

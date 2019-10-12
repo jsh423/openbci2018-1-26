@@ -146,40 +146,7 @@
           <Name>(105=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>869</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134258162</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\jsh\Desktop\椤圭洰绠＄悊\鑴戠數閲囬泦\涓嬩綅鏈?stm32f407\LWIP\lwip_app\tcp_server_demo\tcp_server_demo.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Tempate\../LWIP/lwip_app/tcp_server_demo/tcp_server_demo.c\869</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>394</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134228804</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\jsh\Desktop\椤圭洰绠＄悊\鑴戠數閲囬泦\涓嬩綅鏈?stm32f407\HARDWARE\ADS1299\ads1299.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Tempate\../HARDWARE/ADS1299/ads1299.c\394</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -296,7 +263,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>

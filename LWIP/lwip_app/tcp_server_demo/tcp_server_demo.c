@@ -589,8 +589,10 @@ void Data_Process(void)
 		break;
 		case 0x14://自检命令
 			
+			ADS1299_SDATAC();//退出连续读数模式，以便进行寄存器的设置
 		if(tcp_server_recvbuf[2]==1)
 		{
+			
 			ADS1299_WREG(CH1SET,(0x05|(gain<<4)));//第一通道设置短路，测试系统噪声
 			ADS1299_WREG(CH2SET,(0x05|(gain<<4)));
 			ADS1299_WREG(CH3SET,(0x05|(gain<<4)));
@@ -615,7 +617,7 @@ void Data_Process(void)
 		tcp_server_sendbuf=selftesthbuf;
 		tcp_server_flag|=1<<7;
 		
-		
+		ADS1299_Command(_RDATA);//命令读取数据模式
 			break;
 		case 0x41://如果进行闪光刺激
 			Pwmledduty=10*tcp_server_recvbuf[3];

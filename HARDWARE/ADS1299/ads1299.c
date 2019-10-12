@@ -252,12 +252,12 @@ u8 ADS1299_Check(void)
 		//ADS1299_WREG_Single(0,CONFIG3,0XFc);
 		delay_ms(100);
 		ADS1299_WREG(LOFF,0x00);//DC-Lead-off检查
-		ADS1299_WREG(CH1SET,(0x05|(gain<<4)));//第一通道设置短路，测试系统噪声
-		ADS1299_WREG(CH2SET,(0x05|(gain<<4)));
-		ADS1299_WREG(CH3SET,(0x05|(gain<<4)));
-		ADS1299_WREG(CH4SET,(0X05|(gain<<4)));//第一通道设置普通输入
-		ADS1299_WREG(CH5SET,(0X05|(gain<<4)));
-		ADS1299_WREG(CH6SET,(0X00|(gain<<4)));
+		ADS1299_WREG(CH1SET,(0x0|(gain<<4)));//第一通道设置短路，测试系统噪声
+		ADS1299_WREG(CH2SET,(0x0|(gain<<4)));
+		ADS1299_WREG(CH3SET,(0x0|(gain<<4)));
+		ADS1299_WREG(CH4SET,(0X0|(gain<<4)));//第一通道设置普通输入
+		ADS1299_WREG(CH5SET,(0X0|(gain<<4)));
+		ADS1299_WREG(CH6SET,(0X0|(gain<<4)));
 		ADS1299_WREG(CH7SET,(0X00|(gain<<4)));
 		ADS1299_WREG(CH8SET,(0X00|(gain<<4)));
 		//ADS1299_START=1;
@@ -484,87 +484,87 @@ void EXTI15_10_IRQHandler(void)
 		//OSIntEnter();
 		//OSSemPost(Sem_Task_ads1299); // 发送信号量,这个函数并不会引起系统调度，所以中断服务函数一定要简洁。
 		//EXTI_ClearITPendingBit(EXTI_Line13); // 清除标志位
-		index1=0;
-		ADS1299_CS0=0;
-		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,netcamfifobuf,55);
-		//Recev_Data();
+		//index1=0;
+		//ADS1299_CS0=0;
+		//HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,netcamfifobuf,55);
+		Recev_Data();
 		__HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_10);
          //HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);//调用中断处理公用函数
 		//OSIntExit();
 	//}
 }
 
-void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
-{
-  /* Turn LED2 on: Transfer in transmission/reception process is complete */
-  //BSP_LED_On(LED2);
-	u8 buf[28];
-  //wTransferState = TRANSFER_COMPLETE;
-	//static u8 Num1;
-	
-	switch(index1)
-	{
-		case 0:
-	
-		ADS1299_CS0=1;
-		memcpy(&adc_buf2[index1*24+8],&buf[4],28);
+//void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+//{
+//  /* Turn LED2 on: Transfer in transmission/reception process is complete */
+//  //BSP_LED_On(LED2);
+//	u8 buf[28];
+//  //wTransferState = TRANSFER_COMPLETE;
+//	//static u8 Num1;
+//	
+//	switch(index1)
+//	{
+//		case 0:
+//	
+//		ADS1299_CS0=1;
+//		memcpy(&adc_buf2[index1*24+8],&buf[4],28);
+////		ADS1299_CS3=0;
+////		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,buf,28);
+//		//memcpy(netcamfifobuf[28],buf,28);
+//		tcp_server_flag|=(1<<7);//有数据要发送
+//			//udp_demo_flag|=(1<<7);
+//			
+////				//Num=index1;
+//////				//index1=0;
+//	//}
+//		//memset(adc_buf2,0,105);
+////		tcp_server_flag|=(1<<7);//有数据要发送
+//		tcp_server_sendbuf=adc_buf2;
+//		len=28*4;
+//		//sprintf(netcamfifobuf,%x,buf);
+//		index1=4;
+//		break;
+//		case 1:
+//		ADS1299_CS1=1;
+//		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
+//		ADS1299_CS2=0;
+//		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,buf,28);
+//		///memcpy(&adc_buf2[index1*24+2],&buf[4],24);
+//		index1=2;
+//		break;
+//		case 2:
+//		ADS1299_CS2=1;
+//		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
 //		ADS1299_CS3=0;
 //		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,buf,28);
-		//memcpy(netcamfifobuf[28],buf,28);
-		tcp_server_flag|=(1<<7);//有数据要发送
-			//udp_demo_flag|=(1<<7);
-			
-//				//Num=index1;
-////				//index1=0;
-	//}
-		//memset(adc_buf2,0,105);
-//		tcp_server_flag|=(1<<7);//有数据要发送
-		tcp_server_sendbuf=adc_buf2;
-		len=28*4;
-		//sprintf(netcamfifobuf,%x,buf);
-		index1=4;
-		break;
-		case 1:
-		ADS1299_CS1=1;
-		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
-		ADS1299_CS2=0;
-		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,buf,28);
-		///memcpy(&adc_buf2[index1*24+2],&buf[4],24);
-		index1=2;
-		break;
-		case 2:
-		ADS1299_CS2=1;
-		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
-		ADS1299_CS3=0;
-		HAL_SPI_TransmitReceive_DMA(&SPI2_Handler,TxData0,buf,28);
-		//memcpy(&adc_buf2[index1*24+2],&buf[4],24);
-		index1=3;
-		break;
-		case 3:
-		ADS1299_CS3=1;
-		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
-		//memcpy(&adc_buf2[4],stat,4);
-		//Num=netcam_fifo_write(&adc_buf2[0]);
-		//if((Num>0)&&(~(tcp_server_flag&1<<7)))
-		{
-			tcp_server_flag|=(1<<7);//有数据要发送
-			//udp_demo_flag|=(1<<7);
-			
-//				//Num=index1;
-////				//index1=0;
-		}
-		//memset(adc_buf2,0,105);
-//		tcp_server_flag|=(1<<7);//有数据要发送
-		tcp_server_sendbuf=adc_buf2;
-		len=55;
-		index1=4;
-		break;
-		default:
-			break;
-	
-	}
+//		//memcpy(&adc_buf2[index1*24+2],&buf[4],24);
+//		index1=3;
+//		break;
+//		case 3:
+//		ADS1299_CS3=1;
+//		memcpy(&adc_buf2[index1*24+8],&buf[4],24);
+//		//memcpy(&adc_buf2[4],stat,4);
+//		//Num=netcam_fifo_write(&adc_buf2[0]);
+//		//if((Num>0)&&(~(tcp_server_flag&1<<7)))
+//		{
+//			tcp_server_flag|=(1<<7);//有数据要发送
+//			//udp_demo_flag|=(1<<7);
+//			
+////				//Num=index1;
+//////				//index1=0;
+//		}
+//		//memset(adc_buf2,0,105);
+////		tcp_server_flag|=(1<<7);//有数据要发送
+//		tcp_server_sendbuf=adc_buf2;
+//		len=55;
+//		index1=4;
+//		break;
+//		default:
+//			break;
+//	
+//	}
 
-}
+//}
 //led任务
 //void ads1299_task(void *pdata)
 //{
