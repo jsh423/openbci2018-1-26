@@ -136,7 +136,7 @@ u8 netcam_fifo_write(u8 *buf)
 		{
 			//netcam_fifo_read(&tcp_server_sendbuf);
 			tcp_server_sendbuf=netcamfifobuf;
-			len=netcamfifowrpos*res;
+			len=10*res;
 			netcamfifowrpos=0;
 			//tcp_server_flag|=(1<<7);//有数据要发送	//netcam_line_buf1写入FIFO 
 			return temp+1;
@@ -167,7 +167,7 @@ u8 netcam_fifo_write(u8 *buf)
 //返回值:0 成功；其他 失败
 u8 netmem_malloc(void)
 {
-//    u16 t=0;
+    u16 t=0;
    // netcam_line_buf0=mymalloc(SRAMIN,NETCAM_LINE_SIZE*10);
 	//netcam_line_buf1=mymalloc(SRAMIN,NETCAM_LINE_SIZE);
 
@@ -175,7 +175,7 @@ u8 netmem_malloc(void)
 	netcamfifobuf=mymalloc(SRAMIN,NETCAM_LINE_SIZE*NETCAM_FIFO_NUM);
 //    for(t=0;t<NETCAM_FIFO_NUM;t++) 
 //	{
-//		netcamfifobuf[t]=mymalloc(SRAMEX,NETCAM_LINE_SIZE);
+//		netcamfifobuf[t]=mymalloc(SRAMIN,NETCAM_LINE_SIZE);
 //	} 
 		if(!netcamfifobuf)//||!netcam_line_buf0)//内存申请失败  
     {
@@ -613,11 +613,12 @@ void Data_Process(void)
 			ADS1299_WREG(CH7SET,(0X0|(gain<<4)));
 			ADS1299_WREG(CH8SET,(0X0|(gain<<4)));
 		}
+		ADS1299_Command(_RDATA);//命令读取数据模式
 		len=selftesthbuf[1]+2;
 		tcp_server_sendbuf=selftesthbuf;
 		tcp_server_flag|=1<<7;
 		
-		ADS1299_Command(_RDATA);//命令读取数据模式
+		
 			break;
 		case 0x41://如果进行闪光刺激
 			Pwmledduty=10*tcp_server_recvbuf[3];
@@ -887,6 +888,7 @@ void udp_demo_test(void)
 		if(tcp_server_flag&1<<7)//有数据要发送)//KEY0按下了,发送数据
 		{
 			udp_demo_senddata(udppcb);
+			//meset(
 		}
 		if(tcp_server_flag&1<<6)//是否收到数据?
 		{
@@ -1074,19 +1076,26 @@ void udp_demo_recv(void *arg,struct udp_pcb *upcb,struct pbuf *p,struct ip_addr 
 void udp_demo_senddata(struct udp_pcb *upcb)
 {
 	struct pbuf *ptr2;
+	u8 i;
 	//ptr1=pbuf_alloc(PBUF_TRANSPORT,len/2,PBUF_RAM); //申请内存
 	ptr2=pbuf_alloc(PBUF_TRANSPORT,len,PBUF_RAM); //申请内存
 	if(ptr2)
 	{
 		//ptr2->next=ptr1;
 		//pbuf_take(ptr1,(char*)tcp_server_sendbuf,len/2); //将tcp_demo_sendbuf中的数据打包进pbuf结构中
-		pbuf_take(ptr2,(char*)tcp_server_sendbuf,len); //将tcp_demo_sendbuf中的数据打包进pbuf结构中
+		for(i=0;i<10;i++)
+		{
+		tcp_server_sendbuf=&netcamfifobuf[10*i*NETCAM_LINE_SIZE];
+		pbuf_take(ptr2,(char*)tcp_server_sendbuf,NETCAM_LINE_SIZE*10); //将tcp_demo_sendbuf中的数据打包进pbuf结构中
 		//ptr2->len=len;
 		//ptr2->payload=(void*)tcp_server_sendbuf; 
 		//ptr2->payload=(void*)&tcp_server_sendbuf[len/2];
 		//pbuf_chain(ptr1,ptr2);
 		//udp_send(upcb,ptr1);	//udp发送数据 
-		udp_send(upcb,ptr2);	//udp发送数据 
+		udp_send(upcb,ptr2);	//udp发送数据 		
+		}
+		//memset(netcamfifobuf,0x00,5*NETCAM_LINE_SIZE);
+		//pbuf_take(ptr2,(char*)tcp_server_sendbuf,NETCAM_LINE_SIZE*10); //将tcp_demo_sendbuf中的数据打包进pbuf结构中
 		//pbuf_take(ptr,(char*)tcp_server_sendbuf+2100,1050); //将tcp_demo_sendbuf中的数据打包进pbuf结构中
 		//udp_send(upcb,ptr);	//udp发送数据 
 //		pbuf_take(ptr,(char*)tcp_server_sendbuf+3150,1050); //将tcp_demo_sendbuf中的数据打包进pbuf结构中

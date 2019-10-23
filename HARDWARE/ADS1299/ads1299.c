@@ -277,8 +277,8 @@ u8 ADS1299_Check(void)
 		//ADS1299_WREG_Single(1,CH7SET,(0X00|(gain<<4)));
 		//ADS1299_WREG_Single(0,LOFF_SENSP,0Xff);
 		//ADS1299_WREG_Single(0,LOFF_SENSN,0xff);
-//		ADS1299_WREG(LOFF_SENSP,0xff);//¹Ø±Õ×è¿¹²âÊÔ
-//		ADS1299_WREG(LOFF_SENSN,0xff);
+		ADS1299_WREG(LOFF_SENSP,0xff);//¿ªÆô×è¿¹²âÊÔ
+		ADS1299_WREG(LOFF_SENSN,0xff);
 		//ADS1299_WREG(LOFF_FLIP,0XFF);
 		ADS1299_WREG(LOFF,0x00);//DC-Lead-off¼ì²é
 		
@@ -356,26 +356,8 @@ void Recev_Data(void)
 {
 	u8 k;
 	u8 buf3[28]={0};
-	//u8 res1,res2,res3;
-	//u8 inbyte[100];
-	//u8 Txda=0xff;
-	//u32 stat1;
-	//u32 Adcres[32];
-	//float  tempdata_f;
-	//arm_fir_instance_f32 S;
-	//index1=0;
-	//arm_fir_instance_f32 S;
-	// float32_t *input1,*output1;
-//	 input1=&input[0];
-	// output1=&output[0];
-	 //³õÊ¼»¯
-	// arm_fir_init_f32(&S,29,(float32_t*)&firCoeffs32BS[0],&res[0],20);
-	//adc_buf2=0£»
-	if(res3<0xff) 
-	{
-		res3++;
-	}
-	else res3=0;
+
+	
 	adc_buf2[0]=0xa0;
 	if(openvibeflag) 
 	{
@@ -389,10 +371,8 @@ void Recev_Data(void)
 	adc_buf2[2]=0x01;
 //	adc_buf2[26]=0xc0;
 	
-	adc_buf2[3]=res3;
+	adc_buf2[3]=res3++;
 	}
-	// IWDG_Feed();    //Î¹¹·
-	//tcp_server_sendbuf=buf3;'
 	for(k=0;k<4;k++)
 	{
 		ADS1299_CHANGE_CHANEL(k,0);

@@ -44,12 +44,10 @@ int main(void)
 	//TIM5_Init(1000-1,900-1);			//90M/900=100k的计数频率，自动重装载为1000，那么PWM频率为100K/1000=100HZ,定时器周期是10ms
 	TIM_SetTIM2(000);
 	IIC_Init();
-	//Adg731_Init();
 	ADS1299_Init();
 	TCA6424A_Init();
     my_mem_init(SRAMIN);		    //初始化内部内存池
 	//my_mem_init(SRAMCCM);		    //初始化CCM内存池
-	
     TIM3_Init(1000-1,900-1);        //定时器3初始化，定时器时钟为90M，分频系数为900-1，
    	                               //所以定时器3的频率为90M/900=100K，自动重装载为1000-1，那么定时器周期就是10ms
 	while(lwip_comm_init())         //lwip初始化

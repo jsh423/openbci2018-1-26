@@ -18,7 +18,7 @@
 #define TCP_SERVER_RX_BUFSIZE	200		//定义tcp server最大接收数据长度
 #define TCP_SERVER_PORT			8088	//定义tcp server的端口
  
-#define NETCAM_FIFO_NUM			10			//定义FIFO数量
+#define NETCAM_FIFO_NUM			100			//定义FIFO数量
 #define NETCAM_LINE_SIZE		105	//定义行大小(*4字节)
 
 extern u8 tcp_server_flag;	

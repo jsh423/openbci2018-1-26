@@ -3,7 +3,7 @@
 <title>Static Call Graph - [..\OBJ\Tempate.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image ..\OBJ\Tempate.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Fri Oct 11 19:16:02 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Wed Oct 23 18:39:04 2019
 <BR><P>
 <H3>Maximum Stack Usage =        536 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -483,7 +483,7 @@ Global Symbols
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADS1299_Command
 </UL>
 
-<P><STRONG><a name="[71]"></a>ADS1299_Check</STRONG> (Thumb, 214 bytes, Stack size 8 bytes, ads1299.o(i.ADS1299_Check))
+<P><STRONG><a name="[71]"></a>ADS1299_Check</STRONG> (Thumb, 230 bytes, Stack size 8 bytes, ads1299.o(i.ADS1299_Check))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = ADS1299_Check &rArr; ADS1299_WREG_Single &rArr; SPI2_ReadWriteByte &rArr; HAL_SPI_TransmitReceive &rArr; SPI_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI2_SetSpeed
@@ -599,7 +599,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[83]"></a>Data_Process</STRONG> (Thumb, 1454 bytes, Stack size 48 bytes, tcp_server_demo.o(i.Data_Process))
+<P><STRONG><a name="[83]"></a>Data_Process</STRONG> (Thumb, 1442 bytes, Stack size 48 bytes, tcp_server_demo.o(i.Data_Process))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = Data_Process &rArr; Set_Sps &rArr; ADS1299_WREG_Single &rArr; SPI2_ReadWriteByte &rArr; HAL_SPI_TransmitReceive &rArr; SPI_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_Sps
@@ -1165,7 +1165,7 @@ Global Symbols
 <P><STRONG><a name="[a]"></a>PendSV_Handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f4xx_it.o(i.PendSV_Handler))
 <BR>[Address Reference Count : 1]<UL><LI> startup_stm32f407xx.o(RESET)
 </UL>
-<P><STRONG><a name="[90]"></a>Recev_Data</STRONG> (Thumb, 190 bytes, Stack size 64 bytes, ads1299.o(i.Recev_Data))
+<P><STRONG><a name="[90]"></a>Recev_Data</STRONG> (Thumb, 176 bytes, Stack size 64 bytes, ads1299.o(i.Recev_Data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = Recev_Data &rArr; HAL_SPI_TransmitReceive &rArr; SPI_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;netcam_fifo_write
@@ -1945,7 +1945,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_mem_init
 </UL>
 
-<P><STRONG><a name="[d0]"></a>netcam_fifo_write</STRONG> (Thumb, 64 bytes, Stack size 16 bytes, tcp_server_demo.o(i.netcam_fifo_write))
+<P><STRONG><a name="[d0]"></a>netcam_fifo_write</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, tcp_server_demo.o(i.netcam_fifo_write))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = netcam_fifo_write
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy
@@ -2586,8 +2586,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> tcp_server_demo.o(i.udp_demo_test)
 </UL>
-<P><STRONG><a name="[167]"></a>udp_demo_senddata</STRONG> (Thumb, 52 bytes, Stack size 16 bytes, tcp_server_demo.o(i.udp_demo_senddata))
-<BR><BR>[Stack]<UL><LI>Max Depth = 128<LI>Call Chain = udp_demo_senddata &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
+<P><STRONG><a name="[167]"></a>udp_demo_senddata</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, tcp_server_demo.o(i.udp_demo_senddata))
+<BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = udp_demo_senddata &rArr; pbuf_alloc &rArr; pbuf_free &rArr; mem_free &rArr; plug_holes &rArr; __2printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[168]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;udp_send
 <LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pbuf_take
